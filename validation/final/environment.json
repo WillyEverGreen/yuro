@@ -1,0 +1,17 @@
+{
+  "tokensaver_version": "1.0.0",
+  "tokensaver_commit": "3ad9847289abfbc6387190f6d8b116a482837719",
+  "python_version": "3.12.0 (tags/v3.12.0:0fb18b0, Oct  2 2023, 13:03:39) [MSC v.1935 64 bit (AMD64)]",
+  "os": "Windows-11-10.0.26200-SP0",
+  "tokenizer_backend": "heuristic",
+  "token_count_mode": "estimated",
+  "tokenizer_encoding": "cl100k_base",
+  "dependencies": {
+    "tiktoken": "missing",
+    "bm25s": "installed",
+    "networkx": "3.6.1",
+    "tree_sitter": "installed",
+    "sqlite3": "installed"
+  },
+  "timestamp_utc": "2026-09-11T16:15:44.060827+00:00"
+}

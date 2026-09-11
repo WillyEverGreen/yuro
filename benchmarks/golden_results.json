@@ -1,0 +1,14 @@
+{
+  "version": "6.0",
+  "benchmark_commit": "f2e7bbf80f375b71f251110560376e7fa3c363e9",
+  "task_count": 30,
+  "strict_success_rate": 66.67,
+  "sufficient_evidence_success_rate": 100.0,
+  "exact_target_recall": 0.5833,
+  "sufficient_evidence_recall": 0.6667,
+  "avg_token_savings_pct": 66.56,
+  "p50_latency_ms": 308.83,
+  "p95_latency_ms": 3343.28,
+  "dual_governor_total_reduction": 99.98,
+  "ast_compression_safety": true
+}

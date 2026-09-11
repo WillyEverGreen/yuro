@@ -4,7 +4,7 @@ __pycache__/
 *$py.class
 *.so
 
-# TokenSaver local databases & runtime caches
+# TokenSaver / Yuro local databases & runtime caches
 .tokensaver/
 .tokensaver-cache/
 
@@ -19,3 +19,11 @@ venv/
 build/
 dist/
 *.egg-info/
+
+# Third-party benchmark clones & personal project validation suites
+validation/real_opensource/flask/
+validation/real_opensource/axios/
+validation/sentinelcap_v61/
+validation/real_world/
+benchmarks/run_wagonwatch_validation.py
+benchmarks/run_sentinelcap_validation.py

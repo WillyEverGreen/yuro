@@ -1,0 +1,26 @@
+{
+  "local_only_components": [
+    "SQLite index database (.tokensaver/index.db)",
+    "AST node definition tables",
+    "Relationship call graph edges",
+    "BM25 lexical corpus and inverted term frequency index",
+    "Query expansion concept terms",
+    "Local n-gram TF-IDF semantic vectors",
+    "PageRank centrality scores",
+    "Candidate ranking scores and signal diagnostics",
+    "TokenCounter budget calculations",
+    "AST safe compression pass/fail diagnostics",
+    "Economics gate net calculations"
+  ],
+  "model_visible_components": [
+    "User task prompt",
+    "Header banner (~28 tokens)",
+    "Selected code evidence payload (file path, range, code block)"
+  ],
+  "audit_verification": {
+    "unnecessary_debug_metadata_injected": false,
+    "full_index_dumped": false,
+    "graph_tables_dumped": false,
+    "model_boundary_isolation": "VERIFIED_PASSED"
+  }
+}

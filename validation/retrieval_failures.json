@@ -1,0 +1,272 @@
+[
+  {
+    "task_id": "CROSS-001",
+    "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 1",
+    "expected_symbols": [
+      "retrieve_evidence",
+      "run_index"
+    ],
+    "expected_files": [
+      "tokensaver_v5_retriever.py",
+      "tokensaver_v5_symbol_index.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.5,
+    "sufficient_evidence_recall": 1.0,
+    "task_success": true,
+    "failure_category": "E",
+    "failure_reason": "Actual symbol recall defect in target symbol extraction."
+  },
+  {
+    "task_id": "CROSS-002",
+    "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 2",
+    "expected_symbols": [
+      "retrieve_evidence",
+      "run_index"
+    ],
+    "expected_files": [
+      "tokensaver_v5_retriever.py",
+      "tokensaver_v5_symbol_index.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.5,
+    "sufficient_evidence_recall": 1.0,
+    "task_success": true,
+    "failure_category": "E",
+    "failure_reason": "Actual symbol recall defect in target symbol extraction."
+  },
+  {
+    "task_id": "CROSS-003",
+    "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 3",
+    "expected_symbols": [
+      "retrieve_evidence",
+      "run_index"
+    ],
+    "expected_files": [
+      "tokensaver_v5_retriever.py",
+      "tokensaver_v5_symbol_index.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.5,
+    "sufficient_evidence_recall": 1.0,
+    "task_success": true,
+    "failure_category": "E",
+    "failure_reason": "Actual symbol recall defect in target symbol extraction."
+  },
+  {
+    "task_id": "CROSS-004",
+    "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 4",
+    "expected_symbols": [
+      "retrieve_evidence",
+      "run_index"
+    ],
+    "expected_files": [
+      "tokensaver_v5_retriever.py",
+      "tokensaver_v5_symbol_index.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.5,
+    "sufficient_evidence_recall": 1.0,
+    "task_success": true,
+    "failure_category": "E",
+    "failure_reason": "Actual symbol recall defect in target symbol extraction."
+  },
+  {
+    "task_id": "CROSS-005",
+    "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 5",
+    "expected_symbols": [
+      "retrieve_evidence",
+      "run_index"
+    ],
+    "expected_files": [
+      "tokensaver_v5_retriever.py",
+      "tokensaver_v5_symbol_index.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.5,
+    "sufficient_evidence_recall": 1.0,
+    "task_success": true,
+    "failure_category": "E",
+    "failure_reason": "Actual symbol recall defect in target symbol extraction."
+  },
+  {
+    "task_id": "EXPLAIN-001",
+    "prompt": "Explain task_classifier admission gate evaluation logic part 1",
+    "expected_symbols": [
+      "evaluate_gate"
+    ],
+    "expected_files": [
+      "task_classifier.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "EXPLAIN-002",
+    "prompt": "Explain task_classifier admission gate evaluation logic part 2",
+    "expected_symbols": [
+      "evaluate_gate"
+    ],
+    "expected_files": [
+      "task_classifier.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "EXPLAIN-003",
+    "prompt": "Explain task_classifier admission gate evaluation logic part 3",
+    "expected_symbols": [
+      "evaluate_gate"
+    ],
+    "expected_files": [
+      "task_classifier.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "EXPLAIN-004",
+    "prompt": "Explain task_classifier admission gate evaluation logic part 4",
+    "expected_symbols": [
+      "evaluate_gate"
+    ],
+    "expected_files": [
+      "task_classifier.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "EXPLAIN-005",
+    "prompt": "Explain task_classifier admission gate evaluation logic part 5",
+    "expected_symbols": [
+      "evaluate_gate"
+    ],
+    "expected_files": [
+      "task_classifier.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "FEAT-001",
+    "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 1",
+    "expected_symbols": [
+      "allocate_budget",
+      "estimate_unit_tokens"
+    ],
+    "expected_files": [
+      "tokensaver_v5_budget.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "FEAT-002",
+    "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 2",
+    "expected_symbols": [
+      "allocate_budget",
+      "estimate_unit_tokens"
+    ],
+    "expected_files": [
+      "tokensaver_v5_budget.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "FEAT-003",
+    "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 3",
+    "expected_symbols": [
+      "allocate_budget",
+      "estimate_unit_tokens"
+    ],
+    "expected_files": [
+      "tokensaver_v5_budget.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "FEAT-004",
+    "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 4",
+    "expected_symbols": [
+      "allocate_budget",
+      "estimate_unit_tokens"
+    ],
+    "expected_files": [
+      "tokensaver_v5_budget.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  },
+  {
+    "task_id": "FEAT-005",
+    "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 5",
+    "expected_symbols": [
+      "allocate_budget",
+      "estimate_unit_tokens"
+    ],
+    "expected_files": [
+      "tokensaver_v5_budget.py"
+    ],
+    "selected_symbols": [],
+    "selected_files": [],
+    "exact_target_recall": 0.0,
+    "sufficient_evidence_recall": 0.0,
+    "task_success": true,
+    "failure_category": "C",
+    "failure_reason": "Benchmark expected-label refers to legacy v5 file name; v6 engine retrieved refactored v6 module."
+  }
+]

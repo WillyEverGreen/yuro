@@ -1,0 +1,128 @@
+{
+  "languages": {
+    "Python": {
+      "status": "SUPPORTED",
+      "ext": [
+        ".py"
+      ],
+      "constructs": [
+        "function",
+        "async function",
+        "class",
+        "decorator",
+        "import",
+        "call",
+        "inheritance"
+      ]
+    },
+    "TypeScript": {
+      "status": "SUPPORTED",
+      "ext": [
+        ".ts"
+      ],
+      "constructs": [
+        "function",
+        "class",
+        "interface",
+        "type",
+        "enum",
+        "import",
+        "export",
+        "call"
+      ]
+    },
+    "TSX": {
+      "status": "SUPPORTED",
+      "ext": [
+        ".tsx"
+      ],
+      "constructs": [
+        "React component",
+        "custom hook",
+        "JSX element",
+        "props interface",
+        "import",
+        "export"
+      ]
+    },
+    "JavaScript": {
+      "status": "SUPPORTED",
+      "ext": [
+        ".js",
+        ".mjs",
+        ".cjs"
+      ],
+      "constructs": [
+        "function",
+        "class",
+        "const function",
+        "import",
+        "export",
+        "call"
+      ]
+    },
+    "JSX": {
+      "status": "SUPPORTED",
+      "ext": [
+        ".jsx"
+      ],
+      "constructs": [
+        "React component",
+        "JSX element",
+        "hook",
+        "import",
+        "export"
+      ]
+    },
+    "Go": {
+      "status": "PARTIAL",
+      "ext": [
+        ".go"
+      ],
+      "constructs": [
+        "func",
+        "struct",
+        "import"
+      ]
+    },
+    "Rust": {
+      "status": "PARTIAL",
+      "ext": [
+        ".rs"
+      ],
+      "constructs": [
+        "fn",
+        "struct",
+        "trait",
+        "use"
+      ]
+    },
+    "Java": {
+      "status": "PARTIAL",
+      "ext": [
+        ".java"
+      ],
+      "constructs": [
+        "class",
+        "method",
+        "import"
+      ]
+    },
+    "C/C++": {
+      "status": "PARTIAL",
+      "ext": [
+        ".c",
+        ".h",
+        ".cpp",
+        ".hpp"
+      ],
+      "constructs": [
+        "function",
+        "class",
+        "struct",
+        "include"
+      ]
+    }
+  },
+  "unsupported_language_behavior": "safe_raw_source_fallback_no_compression_no_malformed_output"
+}

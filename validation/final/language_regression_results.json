@@ -1,0 +1,13 @@
+{
+  "suite_name": "Multi-Language Parser & Adapter Regression Suite",
+  "tests_executed": 35,
+  "passed": 35,
+  "failed": 0,
+  "language_pass_rates": {
+    "python": "100.0%",
+    "typescript": "100.0%",
+    "tsx": "100.0%",
+    "javascript": "100.0%",
+    "jsx": "100.0%"
+  }
+}

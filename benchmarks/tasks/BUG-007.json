@@ -1,0 +1,16 @@
+{
+  "task_id": "BUG-007",
+  "category": "bug_fix",
+  "prompt": "Fix run_index in tokensaver_v5_symbol_index.py part 7",
+  "repository": ".",
+  "expected_files": [
+    "tokensaver_v5_symbol_index.py"
+  ],
+  "expected_symbols": [
+    "run_index",
+    "init_db"
+  ],
+  "success_criteria": [
+    "run_index"
+  ]
+}

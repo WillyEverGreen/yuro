@@ -1,0 +1,18 @@
+{
+  "axios_axios": {
+    "repository": "axios/axios",
+    "stars": "106,000+",
+    "tasks": 5,
+    "task_success": "100.0%",
+    "whole_workload_savings_percent": "39.72%",
+    "p50_latency_ms": 77.08
+  },
+  "pallets_flask": {
+    "repository": "pallets/flask",
+    "stars": "66,000+",
+    "tasks": 5,
+    "task_success": "100.0%",
+    "whole_workload_savings_percent": "35.77%",
+    "p50_latency_ms": 241.85
+  }
+}

@@ -6,7 +6,8 @@ import time
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-sys.path.insert(0, r'C:\tools')
+if r'C:\tools' not in sys.path:
+    sys.path.append(r'C:\tools')
 import tokensaver_v5_capabilities as caps
 import tokensaver_v5_evidence_planner as planner
 import tokensaver_v5_retriever as retriever

@@ -1,0 +1,15 @@
+{
+  "task_id": "EXPLAIN-004",
+  "category": "explanation",
+  "prompt": "Explain task_classifier admission gate evaluation logic part 4",
+  "repository": ".",
+  "expected_files": [
+    "task_classifier.py"
+  ],
+  "expected_symbols": [
+    "evaluate_gate"
+  ],
+  "success_criteria": [
+    "evaluate_gate"
+  ]
+}

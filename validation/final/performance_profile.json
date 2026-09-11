@@ -1,0 +1,34 @@
+{
+  "component_latencies_ms": {
+    "admission_gate": 0.429,
+    "index_load_cached": 4.5,
+    "symbol_extraction_py": 12.0,
+    "symbol_extraction_tsx": 18.0,
+    "bm25_lexical_scoring": 8.5,
+    "query_expansion": 1.2,
+    "semantic_fallback_local": 14.5,
+    "graph_traversal": 6.2,
+    "unified_ranking": 5.1,
+    "budget_allocation": 2.4,
+    "ast_compression_pass": 15.3,
+    "economics_gate": 0.8
+  },
+  "repository_tier_latencies_ms": {
+    "SMALL (<50KB)": {
+      "p50": 77.08,
+      "p95": 140.0,
+      "max": 180.0
+    },
+    "MEDIUM (50-500KB)": {
+      "p50": 241.85,
+      "p95": 460.51,
+      "max": 760.47
+    },
+    "LARGE (>500KB)": {
+      "p50": 310.06,
+      "p95": 2561.68,
+      "max": 3377.28
+    }
+  },
+  "latency_verdict": "ACCEPTABLE_LOCAL_LATENCY"
+}

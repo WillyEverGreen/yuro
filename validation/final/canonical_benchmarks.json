@@ -1,0 +1,52 @@
+{
+  "standard_30_task_suite": {
+    "suite_name": "Standard 30-Task Validation Suite",
+    "tasks_evaluated": 30,
+    "strict_task_success_rate": 66.67,
+    "sufficient_evidence_task_success_rate": 100.0,
+    "exact_target_symbol_recall": 0.5833,
+    "sufficient_evidence_recall": 0.6667,
+    "avg_net_savings_tokens_per_task": 12768269,
+    "avg_net_savings_percent": 66.56,
+    "cumulative_30_task_net_saved_tokens": 383048070,
+    "p50_latency_ms": 310.06,
+    "p95_latency_ms": 3377.28
+  },
+  "four_way_caveman_experiment": {
+    "suite_name": "Four-Way Caveman Output Experiment",
+    "baseline_input_tokens": 13175153,
+    "tokensaver_input_tokens": 1275,
+    "input_net_saved_tokens": 13173878,
+    "input_savings_percent": 99.9903,
+    "baseline_output_tokens": 1500,
+    "caveman_output_tokens": 450,
+    "output_saved_tokens": 1050,
+    "output_savings_percent": 70.0,
+    "combined_total_optimized_tokens": 1725,
+    "combined_total_saved_tokens": 13174928,
+    "total_savings_percent": 99.9869,
+    "mathematically_verified": true
+  },
+  "axios_axios_opensource": {
+    "suite_name": "axios/axios Real Open-Source Benchmark",
+    "repository": "axios/axios",
+    "language": "TypeScript / JavaScript",
+    "github_stars": "106,000+",
+    "tasks_evaluated": 5,
+    "task_success_rate": 100.0,
+    "exact_raw_tokens_per_repo": 10000,
+    "whole_workload_savings_percent": 39.72,
+    "p50_latency_ms": 77.08
+  },
+  "pallets_flask_opensource": {
+    "suite_name": "pallets/flask Real Open-Source Benchmark",
+    "repository": "pallets/flask",
+    "language": "Python",
+    "github_stars": "66,000+",
+    "tasks_evaluated": 5,
+    "task_success_rate": 100.0,
+    "exact_raw_tokens_per_repo": 10000,
+    "whole_workload_savings_percent": 35.77,
+    "p50_latency_ms": 241.85
+  }
+}

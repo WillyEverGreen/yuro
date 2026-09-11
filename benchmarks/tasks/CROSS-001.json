@@ -1,0 +1,17 @@
+{
+  "task_id": "CROSS-001",
+  "category": "cross_file_debug",
+  "prompt": "Fix call graph edge resolution between retriever and indexer in tokensaver_v5_retriever.py part 1",
+  "repository": ".",
+  "expected_files": [
+    "tokensaver_v5_retriever.py",
+    "tokensaver_v5_symbol_index.py"
+  ],
+  "expected_symbols": [
+    "retrieve_evidence",
+    "run_index"
+  ],
+  "success_criteria": [
+    "retrieve_evidence"
+  ]
+}

@@ -68,6 +68,8 @@ def compute_hash(content_bytes):
     return hashlib.sha256(content_bytes).hexdigest()
 
 def get_db_path(workspace_path):
+    if os.path.isfile(workspace_path):
+        workspace_path = os.path.dirname(workspace_path)
     tokensaver_dir = os.path.join(workspace_path, ".tokensaver")
     os.makedirs(tokensaver_dir, exist_ok=True)
     return os.path.join(tokensaver_dir, "index.db")

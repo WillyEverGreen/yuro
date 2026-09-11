@@ -1,0 +1,20 @@
+{
+  "unresolved_benchmark_discrepancies": 0,
+  "math_integrity_checks": {
+    "raw_minus_selected_minus_overhead_equals_net_saved": true,
+    "net_saved_divided_by_raw_equals_savings_percent": true,
+    "input_net_plus_output_saved_equals_total_saved": true
+  },
+  "historical_reconciliation_log": [
+    {
+      "artifact": "adversarial_report.json",
+      "classification": "METHODOLOGY_CHANGE",
+      "note": "Separated exact target recall from sufficient evidence recall to resolve legacy label mismatch."
+    },
+    {
+      "artifact": "real_opensource/real_opensource_benchmark.json",
+      "classification": "OPENSOURCE_VALIDATION",
+      "note": "Validated Yuro context engine against pallets/flask and axios/axios."
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "scenarios": [
+    {
+      "condition": "No tiktoken",
+      "behavior": "Fallback to exact character-ratio heuristic (len(text)/3.8)",
+      "status": "SAFE_PASS"
+    },
+    {
+      "condition": "No bm25s",
+      "behavior": "Fallback to AST + Graph + Query Expansion ranking",
+      "status": "SAFE_PASS"
+    },
+    {
+      "condition": "No networkx",
+      "behavior": "Fallback to degree centrality dict ranking",
+      "status": "SAFE_PASS"
+    },
+    {
+      "condition": "Corrupt SQLite index DB",
+      "behavior": "Automatic index rebuild on workspace",
+      "status": "SAFE_PASS"
+    },
+    {
+      "condition": "Malformed source code syntax",
+      "behavior": "Fallback original raw source (zero compression mutation)",
+      "status": "SAFE_PASS"
+    },
+    {
+      "condition": "Unsupported language extension",
+      "behavior": "Fallback raw source context without malformed output",
+      "status": "SAFE_PASS"
+    }
+  ]
+}

@@ -6,7 +6,8 @@ import json
 if hasattr(sys.stdout, 'reconfigure'):
     sys.stdout.reconfigure(encoding='utf-8')
 
-sys.path.insert(0, r'C:\tools')
+if r'C:\tools' not in sys.path:
+    sys.path.append(r'C:\tools')
 import tokensaver_v5_symbol_index as idx
 
 def retrieve_evidence(workspace_path, evidence_plan):

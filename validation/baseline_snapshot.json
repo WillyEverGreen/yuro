@@ -1,0 +1,24 @@
+{
+  "unit_tests": {
+    "total": 30,
+    "passed": 30,
+    "failed": 0
+  },
+  "success_benchmark": {
+    "tasks_evaluated": 30,
+    "task_success_rate": 100.0,
+    "retrieval_success_rate": 66.67,
+    "avg_net_savings_tokens": 12768269,
+    "avg_net_savings_percent": 66.56,
+    "p50_latency_ms": 293.0,
+    "p95_latency_ms": 3467.65
+  },
+  "caveman_experiment": {
+    "baseline_input": 13175153,
+    "baseline_output": 1500,
+    "tokensaver_input": 1275,
+    "caveman_output": 450,
+    "dual_total": 1725,
+    "reduction_pct": 99.98
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "local_first_isolation": true,
+  "unexpected_network_calls_detected": false,
+  "full_repository_dumps_in_logs": false,
+  "credential_secret_leakage": false,
+  "index_storage_privacy": "STRICTLY_LOCAL_DB",
+  "verdict": "SECURITY_PRIVACY_PASSED"
+}

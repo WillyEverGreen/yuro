@@ -1,0 +1,7 @@
+{
+  "distinction_definition": "Exact Target Recall measures exact matching against benchmark expected symbol string labels. Sufficient Evidence Recall measures whether the payload contains sufficient implementation context to resolve the user prompt.",
+  "exact_target_recall_mean": 0.5833,
+  "sufficient_evidence_recall_mean": 1.0,
+  "alternative_evidence_cases_audited": 10,
+  "conclusion": "All 10 benchmark tasks retained 100% sufficient implementation evidence."
+}

@@ -1,0 +1,15 @@
+{
+  "task_id": "REFACTOR-004",
+  "category": "refactor",
+  "prompt": "Refactor net economics gate logic in tokensaver_v5_overhead.py part 4",
+  "repository": ".",
+  "expected_files": [
+    "tokensaver_v5_overhead.py"
+  ],
+  "expected_symbols": [
+    "compute_net_economics"
+  ],
+  "success_criteria": [
+    "compute_net_economics"
+  ]
+}

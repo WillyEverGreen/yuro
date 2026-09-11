@@ -1,0 +1,16 @@
+{
+  "task_id": "FEAT-005",
+  "category": "feature",
+  "prompt": "Implement tiktoken exact tokenizer counting in tokensaver_v5_budget.py part 5",
+  "repository": ".",
+  "expected_files": [
+    "tokensaver_v5_budget.py"
+  ],
+  "expected_symbols": [
+    "allocate_budget",
+    "estimate_unit_tokens"
+  ],
+  "success_criteria": [
+    "allocate_budget"
+  ]
+}

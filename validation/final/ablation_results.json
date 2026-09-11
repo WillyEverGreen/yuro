@@ -1,0 +1,37 @@
+{
+  "full_v100_pipeline": {
+    "task_success": "100.0%",
+    "evidence_recall": "100.0%",
+    "net_savings": "90.0%"
+  },
+  "without_multilanguage_indexer": {
+    "task_success": "66.7%",
+    "evidence_recall": "66.7%",
+    "net_savings": "90.0%"
+  },
+  "without_test_file_penalty": {
+    "task_success": "83.3%",
+    "evidence_recall": "83.3%",
+    "net_savings": "90.0%"
+  },
+  "without_query_expansion": {
+    "task_success": "75.0%",
+    "evidence_recall": "75.0%",
+    "net_savings": "90.0%"
+  },
+  "without_semantic_fallback": {
+    "task_success": "91.7%",
+    "evidence_recall": "91.7%",
+    "net_savings": "90.0%"
+  },
+  "without_ast_compression": {
+    "task_success": "100.0%",
+    "evidence_recall": "100.0%",
+    "net_savings": "62.4%"
+  },
+  "without_caveman_governor": {
+    "task_success": "100.0%",
+    "evidence_recall": "100.0%",
+    "net_savings": "66.5%"
+  }
+}

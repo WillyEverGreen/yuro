@@ -1,0 +1,32 @@
+{
+  "Candidate_Alpha": {
+    "blind_label": "Candidate_Alpha",
+    "test_pass_rate": 86.7,
+    "correctness_score": 7.2,
+    "revealed_identity": "Baseline A"
+  },
+  "Candidate_Beta": {
+    "blind_label": "Candidate_Beta",
+    "test_pass_rate": 100.0,
+    "correctness_score": 9.8,
+    "revealed_identity": "Dual Governor"
+  },
+  "Candidate_Gamma": {
+    "blind_label": "Candidate_Gamma",
+    "test_pass_rate": 93.3,
+    "correctness_score": 8.5,
+    "revealed_identity": "TokenSaver v5"
+  },
+  "Candidate_Delta": {
+    "blind_label": "Candidate_Delta",
+    "test_pass_rate": 86.7,
+    "correctness_score": 7.2,
+    "revealed_identity": "Baseline B"
+  },
+  "Candidate_Epsilon": {
+    "blind_label": "Candidate_Epsilon",
+    "test_pass_rate": 100.0,
+    "correctness_score": 9.8,
+    "revealed_identity": "TokenSaver v6"
+  }
+}
