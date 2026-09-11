@@ -1,0 +1,21 @@
+# Python cache & bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# TokenSaver local databases & runtime caches
+.tokensaver/
+.tokensaver-cache/
+
+# Environments & IDEs
+.venv/
+env/
+venv/
+.idea/
+.vscode/
+
+# Build & packaging
+build/
+dist/
+*.egg-info/

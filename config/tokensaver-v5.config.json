@@ -1,0 +1,24 @@
+{
+  "version": "5.0.0",
+  "engine_mode": "auto",
+  "default_budget": 4000,
+  "max_budget": 8000,
+  "coverage_thresholds": {
+    "architecture": 0.90,
+    "explain": 0.90,
+    "refactor": 0.95,
+    "implementation": 0.95,
+    "debug": 0.98,
+    "security": 1.00
+  },
+  "enabled_languages": [
+    "python", "javascript", "typescript", "go", "rust", "java", "cpp", "c", "c_sharp"
+  ],
+  "ignored_paths": [
+    ".git", "node_modules", "__pycache__", "dist", "build", ".venv", "venv", ".tokensaver"
+  ],
+  "caveman_policy": "adaptive",
+  "semantic_retrieval": false,
+  "metrics_logging": true,
+  "fallback_policy": "safe_raw_context"
+}

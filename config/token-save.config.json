@@ -1,0 +1,18 @@
+﻿{
+  "budgets": {
+    "normal": 8000,
+    "prune": 20000,
+    "signatures": 40000,
+    "aggressive": 60000
+  },
+  "relevance_weights": {
+    "target_file": 100,
+    "traceback_file": 90,
+    "mentioned_symbol": 80,
+    "direct_import": 60,
+    "related_symbol": 40,
+    "unrelated_file": 0
+  },
+  "default_mode": "plan",
+  "fidelity_check": true
+}

@@ -1,0 +1,16 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tokensaver"
+version = "5.0.0"
+description = "Local-first symbol-aware evidence engine for AI coding assistants"
+readme = "docs/TOKENSAVER_V5_README.md"
+requires-python = ">=3.8"
+dependencies = [
+    "tree-sitter>=0.20.0"
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
