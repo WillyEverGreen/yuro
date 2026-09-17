@@ -119,7 +119,7 @@ After every execution:
 3. **Working Sets:** Identify top consumer PIDs (`Get-Process | Sort WorkingSet64 -Descending`).
 4. **Targeted Action:** If legitimate apps account for memory, report metrics; do NOT flush. Trigger `/boost` ONLY if commit charge approaches 95% and disk swapping occurs.
 
-### Codebase Reconnaissance Protocol (T0–T5 Decision Tree)
+### Codebase Reconnaissance Protocol (T0-T5 Decision Tree)
 
 ```text
 User Code Request

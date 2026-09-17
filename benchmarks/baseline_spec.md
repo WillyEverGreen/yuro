@@ -1,4 +1,4 @@
-# TokenSaver v6.0 — Benchmark Baseline Specification & Audit
+# TokenSaver v6.0 - Benchmark Baseline Specification & Audit
 
 ## 1. Executive Overview
 
@@ -26,11 +26,11 @@ The 13,175,153 input token baseline reported in the Caveman Experiment represent
 
 TokenSaver v6.0 is evaluated against two explicit baseline models to ensure fair comparison:
 
-### Baseline A — Full Repository Baseline
+### Baseline A - Full Repository Baseline
 * **Description**: Concatenates all eligible source files in the target repository workspace up to the model's context window limit.
 * **Use Case**: Measures context reduction against naive full-workspace prompting.
 
-### Baseline B — Practical File-Level Baseline
+### Baseline B - Practical File-Level Baseline
 * **Description**: Uses a simple keyword heuristic matching files referenced in the prompt and their direct 1-hop module imports.
 * **Use Case**: Prevents TokenSaver from being compared exclusively against an unrealistically large full-repository payload.
 

@@ -1,4 +1,4 @@
-# TokenSaver v5.0.0 — Production-Ready Adaptive Evidence Engine
+# TokenSaver v5.0.0 - Production-Ready Adaptive Evidence Engine
 
 TokenSaver v5 is a local-first, symbol-aware evidence engine for AI coding assistants. It turns raw repository code into minimum sufficient model-visible evidence while guaranteeing positive NET token savings.
 

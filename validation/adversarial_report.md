@@ -1,4 +1,4 @@
-# TokenSaver v6.0 — Final Adversarial Validation & Release Report
+# TokenSaver v6.0 - Final Adversarial Validation & Release Report
 
 > **Status**: `VALIDATED PRODUCTION RELEASE`  
 > **Commit Hash**: `f2e7bbf80f375b71f251110560376e7fa3c363e9`  

@@ -1,0 +1,18 @@
+name: Feature Request
+description: Propose an idea or toolchain capability for YURO
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or Context Bottleneck
+      description: What context inefficiency or agent limitation are you encountering?
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: A concise description of what tool or protocol extension you would like to see.
+    validations:
+      required: true

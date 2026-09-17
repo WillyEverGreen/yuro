@@ -1,4 +1,4 @@
-# TokenSaver v5 — Final Architecture Report
+# TokenSaver v5 - Final Architecture Report
 
 ## Executive Summary
 
@@ -88,7 +88,7 @@ Caveman Mode operates as an adaptive output policy. Injected instruction overhea
 | 11 | `large_repo` | `V5_ACTIVE` | 14,155,744 | 105,775 | 28 | 14,049,941 | 99.25% |
 | 12 | `mixed_language` | `V5_ACTIVE` | 3,038,904 | 85,104 | 28 | 2,953,772 | 97.20% |
 | 13 | `unsupported_language` | `SKIP` | 5,000 | 5,000 | 0 | 0 | 0.0% |
-| **TOTALS** | — | — | **17,397,882** | **236,790** | **140** | **17,160,952** | **98.64%** |
+| **TOTALS** | - | - | **17,397,882** | **236,790** | **140** | **17,160,952** | **98.64%** |
 
 ---
 

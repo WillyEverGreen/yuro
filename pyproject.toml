@@ -5,12 +5,33 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "yuro"
 version = "2.0.0"
-description = "Yuro - Unified Code Graph Intelligence & Zero-Waste Context Engine for AI Coding Agents"
+description = "Bounded context engine and autonomous tooling layer for AI coding agents. Cuts agent context consumption by up to 95% using AST code graphs and bounded search."
 readme = "README.md"
 requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "WillyEverGreen"}
+]
+keywords = [
+    "ai-coding-agents",
+    "context-optimization",
+    "antigravity-ide",
+    "claude-code",
+    "token-audit",
+    "code-intelligence",
+    "tree-sitter",
+    "ast-grep",
+    "mcp",
+    "developer-tools"
+]
 dependencies = [
     "tree-sitter>=0.20.0"
 ]
+
+[project.urls]
+Homepage = "https://github.com/WillyEverGreen/YURO"
+Repository = "https://github.com/WillyEverGreen/YURO.git"
+Issues = "https://github.com/WillyEverGreen/YURO/issues"
 
 [project.scripts]
 token-save = "utilities.token-save:main"

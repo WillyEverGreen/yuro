@@ -1,4 +1,4 @@
-# TokenSaver v6.0 — Production Validation & Benchmark Report
+# TokenSaver v6.0 - Production Validation & Benchmark Report
 
 **Date**: September 11, 2026  
 **Engine Version**: `v6.0.0` (Production Hardened)  
@@ -81,7 +81,7 @@ Evaluated on complex architecture explanation and code modification tasks:
 ## 3. Testing Pyramid Execution
 
 ```text
-Ran 30 tests in 6.327s — OK (0 Failures, 0 Errors)
+Ran 30 tests in 6.327s - OK (0 Failures, 0 Errors)
 ```
 
 - **Unit Tests** (`tests/unit/`): Verified `TokenCounter` (`tiktoken` & `heuristic`), budget allocation ceiling (`selected_tokens <= budget`), ranker signal calculation, and economics gate bypass.

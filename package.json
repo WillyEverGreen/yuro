@@ -1,12 +1,21 @@
 {
   "name": "yuro",
   "version": "2.0.0",
-  "description": "Unified Code Graph Intelligence & Zero-Waste Context Engine for AI Coding Agents",
+  "description": "Bounded context engine and autonomous tooling layer for AI coding agents (Google Antigravity IDE, Claude Code, Cursor). Cuts agent context consumption by up to 95% using AST code graphs and bounded search.",
   "main": "cmd/token-tracker.js",
   "bin": {
     "token-tracker": "cmd/token-tracker.js",
     "token-audit": "cmd/token-tracker.js",
-    "token-scan": "cmd/token-tracker.js"
+    "token-scan": "cmd/token-tracker.js",
+    "auto-accept": "daemon/auto-accept/auto-accept.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WillyEverGreen/YURO.git"
+  },
+  "homepage": "https://github.com/WillyEverGreen/YURO#readme",
+  "bugs": {
+    "url": "https://github.com/WillyEverGreen/YURO/issues"
   },
   "scripts": {
     "test": "powershell -ExecutionPolicy Bypass -File ./verify.ps1",
@@ -16,13 +25,21 @@
     "install:unix": "bash ./install.sh"
   },
   "keywords": [
-    "ai",
+    "ai-coding-agents",
     "context-optimization",
-    "token-efficiency",
+    "antigravity-ide",
+    "google-antigravity",
+    "claude-code",
+    "cursor",
+    "token-audit",
+    "code-intelligence",
+    "tree-sitter",
+    "ast-grep",
     "codebase-memory",
-    "antigravity",
-    "agentic-coding",
-    "graph-code-search",
+    "mcp",
+    "model-context-protocol",
+    "developer-tools",
+    "auto-accept",
     "yuro"
   ],
   "author": "WillyEverGreen",

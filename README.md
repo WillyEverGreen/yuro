@@ -1,17 +1,17 @@
 <div align="center">
 
-<img src="yuro.png" alt="Yuro mascot" width="240" style="margin-bottom: 15px;" />
+<img src="yuro.png" alt="Yuro mascot" width="220" style="margin-bottom: 12px;" />
 
 # YURO
 
-**The Autonomous Context & Tooling Engine for AI Coding Agents.**  
-*Primary Focus: Google Antigravity IDE • Universal CLI Support for Claude Code, Gemini CLI & Cursor*
+**Bounded context engine and autonomous tooling for AI coding agents.**  
+Flagship Target: Google Antigravity IDE | Universal CLI for Claude Code, Gemini CLI, and Cursor
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/Release-v2.0.0%20Unified-blue.svg)](pyproject.toml)
-[![Primary IDE](https://img.shields.io/badge/Primary%20IDE-Google%20Antigravity-4285F4.svg)](#-flagship-target-google-antigravity-ide)
-[![Context Reduction](https://img.shields.io/badge/Context%20Reduction--95%25%20Empirical-success.svg)](#-empirical-benchmarks-on-open-source-codebases)
-[![Architecture](https://img.shields.io/badge/Architecture-T0--T5%20Routing-cyan.svg)](#-the-t0-t5-unified-routing-protocol)
+[![CI](https://github.com/WillyEverGreen/YURO/actions/workflows/ci.yml/badge.svg)](https://github.com/WillyEverGreen/YURO/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-2.0.0-green.svg)](pyproject.toml)
+[![Primary IDE](https://img.shields.io/badge/target-Google%20Antigravity-4285F4.svg)](#flagship-target-google-antigravity-ide)
+[![Stars](https://img.shields.io/github/stars/WillyEverGreen/YURO?style=social)](https://github.com/WillyEverGreen/YURO)
 
 ---
 
@@ -19,61 +19,82 @@
 
 ## Overview
 
-Modern AI coding agents are exceptional at reasoning, but fundamentally inefficient at context management. When investigating unfamiliar codebases, agents routinely run unrestricted greps, crawl directory trees, and dump dozens of full source files into context—spending **15,000 to 40,000 tokens** on inquiries that require **under 350 tokens** of targeted evidence.
+AI coding agents waste context during repository exploration. When investigating an unfamiliar codebase, agents typically run unrestricted searches, traverse full directories, and dump multiple source files into context. A single inquiry can consume 15,000 to 40,000 tokens when only 350 tokens of targeted evidence are actually needed.
 
-Because LLM context accumulates turn-over-turn, unconstrained file dumping causes prompt bloat to compound exponentially, triggering:
-- **Model Amnesia**: Critical instructions pushed outside the active attention window.
-- **Context Compaction**: Loss of granular nuances and past implementation history.
-- **Inflated Costs & Latency**: Large payloads driving up token bills and response wait times.
+Because conversational context accumulates turn over turn, early token bloat compounds on every subsequent step:
+- **Attention degradation**: Key system instructions and past constraints get diluted.
+- **Context compaction**: Session summaries drop nuanced implementation details.
+- **Cost and latency inflation**: Large payloads slow model responses and drive up API bills.
 
-**YURO is the bounded context and autonomous execution layer.** It provides AST-indexed code graphs, strictly bounded search wrappers, ground-truth token telemetry, and autonomous approval daemons that preserve model intelligence while eliminating token waste.
+YURO provides bounded tooling and AST graph intelligence for coding agents. Instead of loading whole files into model context, YURO indexes repositories into an SQLite graph and runs bounded search primitives, returning the exact evidence required for the task.
 
 ```text
-                  WITHOUT YURO                                         WITH YURO
-        (Blind Exploration & File Dumps)                   (Bounded Graph & Context Engine)
+                  UNBOUNDED BASELINE                                   WITH YURO
+           (Full File Dumps & Uncapped Grep)               (AST Code Graph & Bounded Search)
 
 Agent:                                             Agent:
   grep "app.handle"...          -> 380 tokens        cbm trace handle          -> 160 tokens
-  read lib/application.js       -> 4,120 tokens                                   (exact call hierarchy)
+  read lib/application.js       -> 4,120 tokens                                   (call hierarchy)
   read lib/router/index.js      -> 4,210 tokens      cbm snippet json          -> 194 tokens
   read lib/response.js (1,150L) -> 6,871 tokens                                   (res.json body only)
                                                      rg-mini "X-Powered-By"    -> 33 tokens
                                                                                   (capped header match)
 ─────────────────────────────────────────────      ─────────────────────────────────────────────
-TOTAL DUMPED: 15,581 tokens 💥                     TOTAL DUMPED: 387 tokens 🚀 (-97.5% reduction)
+Total Context: 15,581 tokens                       Total Context: 387 tokens (-97.5% reduction)
 ```
 
 ---
 
-## 🎯 Flagship Target: Google Antigravity IDE
+## Quick Start
 
-While YURO delivers universal CLI tools compatible with Claude Code, Gemini CLI, Cursor, and Codex, **its primary design and flagship target is Google Antigravity IDE**.
+### Windows (PowerShell)
+```powershell
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/WillyEverGreen/YURO/main/install.ps1 | iex"
+```
 
-YURO integrates natively with Antigravity's architectural layers:
+Or clone and install locally:
+```powershell
+git clone https://github.com/WillyEverGreen/YURO.git
+cd YURO
+.\install.ps1
+```
 
-1. **Autonomous Approval Daemon (`auto-accept`)**: Direct Chrome DevTools Protocol (CDP) daemon that monitors Antigravity's internal WebView to auto-approve tool execution, bash commands, and plan dialogs without stealing physical mouse or keyboard focus.
-2. **Ground-Truth Transcript Telemetry (`token-tracker` / `antigravity-brain`)**: Directly parses Antigravity's untruncated session records (`transcript_full.jsonl`) to measure exact character volumes, token consumption, and tool payloads without synthetic multipliers.
-3. **Global Rule Injection**: Automatically deploys the deterministic `T0-T5` protocol into `%USERPROFILE%\.gemini\config\rules\` so the agent autonomously chooses the correct tool tier.
-4. **Modular Agent Skills**: Seamlessly delivers workstation diagnostic skills (`pc-toolbox`), multi-tier scrapers (`auto-scraper`), and concise token governors (`caveman-mode`) to `%USERPROFILE%\.gemini\config\skills\`.
-5. **Model Context Protocol (MCP)**: Bundles native `codebase-memory` MCP server configurations for lazy graph-backed symbol discovery.
+### Linux / macOS
+```bash
+curl -fsSL https://raw.githubusercontent.com/WillyEverGreen/YURO/main/install.sh | bash
+```
+
+---
+
+## Flagship Target: Google Antigravity IDE
+
+While YURO provides universal CLI binaries compatible with Claude Code, Gemini CLI, Cursor, and Codex, **its primary design target is Google Antigravity IDE**.
+
+YURO integrates with Antigravity across five key touchpoints:
+
+1. **Autonomous Approval Daemon (`auto-accept`)**: Direct Chrome DevTools Protocol (CDP) daemon connecting to Antigravity on port `9333`. Automatically approves tool execution, terminal commands, and implementation plan modals without taking focus from mouse or keyboard.
+2. **Ground-Truth Transcript Telemetry (`token-tracker` / `antigravity-brain`)**: Directly reads Antigravity untruncated session transcripts (`transcript_full.jsonl`). Computes exact character volumes, token usage, and per-tool payload metrics with zero synthetic multipliers.
+3. **Global Rule Synchronization**: Deploys the deterministic T0-T5 routing protocol to `%USERPROFILE%\.gemini\config\rules\` so the model autonomously selects the most token-efficient tool.
+4. **Modular Agent Skills**: Installs system diagnostic skills (`pc-toolbox`), web scrapers (`auto-scraper`), and concise output governors (`caveman-mode`) to `%USERPROFILE%\.gemini\config\skills\`.
+5. **Model Context Protocol (MCP)**: Bundles native `codebase-memory` MCP configuration for on-demand graph queries.
 
 ---
 
 ## Architecture
 
-YURO sits directly between the AI agent and the underlying filesystem, replacing unbounded shell tools with deterministic, bounded primitives:
+YURO sits between the agent runtime and the filesystem, intercepting unstructured queries and routing them through bounded primitives:
 
 ```text
                       ┌─────────────────────────────────────────┐
                       │             AI CODING AGENT             │
-                      │  ★ Google Antigravity IDE (Flagship)   │
-                      │    Claude Code / Gemini / Cursor        │
+                      │    Google Antigravity IDE (Flagship)    │
+                      │      Claude Code / Gemini / Cursor      │
                       └────────────────────┬────────────────────┘
                                            │
                                            ▼
                       ┌─────────────────────────────────────────┐
                       │               YURO ENGINE               │
-                      │    T0–T5 Deterministic Routing Protocol │
+                      │       T0-T5 Decision Protocol           │
                       └─────┬──────────────┬──────────────┬─────┘
                             │              │              │
            ┌────────────────┘              │              └────────────────┐
@@ -81,8 +102,8 @@ YURO sits directly between the AI agent and the underlying filesystem, replacing
   ┌─────────────────┐             ┌─────────────────┐             ┌─────────────────┐
   │ CODE GRAPH (cbm)│             │ BOUNDED SEARCH  │             │ AUTONOMOUS OPS  │
   │ Tree-sitter AST │             │ rg-mini/fd-mini │             │ auto-accept CDP │
-  │ SQLite Cache    │             │ Max 20 Lines    │             │ Zero-Blocking   │
-  │ <350 tokens     │             │ <80 tokens      │             │ 100% Unattended │
+  │ SQLite Cache    │             │ Max 20 Lines    │             │ Port 9333       │
+  │ <350 tokens     │             │ <80 tokens      │             │ Background      │
   └─────────────────┘             └─────────────────┘             └─────────────────┘
            │                               │                               │
            └────────────────┬──────────────┴───────────────┬───────────────┘
@@ -96,14 +117,14 @@ YURO sits directly between the AI agent and the underlying filesystem, replacing
 
 ---
 
-## 📊 Empirical Benchmarks on Open-Source Codebases
+## Empirical Benchmarks
 
-All metrics are measured against genuine, public open-source repositories using exact character token counting ($1\text{ token} \approx 3.8\text{ chars}$) from raw agent transcripts:
+All metrics are measured against public open-source repositories using exact character token accounting (1 token ≈ 3.8 characters) from raw agent transcripts:
 
 ### Benchmark 1: `expressjs/express` (64,000+ GitHub Stars)
-*Target: Standard Node.js Web Framework (996 AST nodes, 1,647 call edges)*
+*Target: Node.js web framework (996 AST nodes, 1,647 call edges)*
 
-| Scenario | Task | Unbounded Baseline | YURO Optimized | Context Reduction | Speed Delta |
+| Scenario | Task | Unbounded Baseline | YURO Optimized | Context Reduction | Latency Delta |
 | :--- | :--- | :--- | :--- | :---: | :---: |
 | **1. Architecture & Deps** | Discover module layout & exports | 1,372 tok (1,043ms) | **221 tok** (2,117ms) | **-84%** | 2x slower |
 | **2. Router Call Graph** | Trace `app.handle` request pipeline | 4,043 tok (1,175ms) | **160 tok** (2,558ms) | **-96%** | 2x slower |
@@ -112,7 +133,7 @@ All metrics are measured against genuine, public open-source repositories using 
 | **CUMULATIVE WORKLOAD** | **4 Exploration Queries** | **12,447 tokens** | **608 tokens** | **-95.1%** | **~11,839 tokens saved** |
 
 ### Benchmark 2: `pallets/flask` (66,000+ GitHub Stars)
-*Target: Python WSGI Web Framework (Multi-file module architecture)*
+*Target: Python WSGI web framework (multi-file module layout)*
 
 | Scenario | Task | Unbounded Baseline | YURO Optimized | Context Reduction |
 | :--- | :--- | :--- | :--- | :---: |
@@ -122,19 +143,19 @@ All metrics are measured against genuine, public open-source repositories using 
 | **4. Session Security** | Inspect `SecureCookieSessionInterface` | 10,000 tok (1,340ms) | **4,180 tok** (280ms) | **-58.2%** |
 | **CUMULATIVE WORKLOAD** | **Full Feature Investigation** | **40,000 tokens** | **20,695 tokens** | **-48.3%** |
 
-> **Variance Analysis**:
-> - **Monorepos & Web Applications** (e.g. Express): Achieve **85% to 95%+ net reduction** because subgraphs pinpoint exact call hierarchies, eliminating massive file dumps.
-> - **Tightly Coupled Framework Libraries** (e.g. Flask, Axios): Achieve **35% to 55% net reduction** because higher proportions of core interface types must be retained to maintain 100% task recall.
+### Variance Analysis
+- **Monorepos and Web Applications** (e.g. Express, React apps): Yield **85% to 95%+ reduction** because call subgraphs pinpoint exact implementation blocks, eliminating multi-hundred-line file dumps.
+- **Tightly Coupled Framework Libraries** (e.g. Flask, Axios): Yield **35% to 55% reduction** because a larger proportion of core type interfaces must be retained to maintain 100% task recall.
 
 ---
 
-## 🛠️ The Complete Tool Suite
+## Tool Reference
 
-YURO consolidates every tool required for high-efficiency agentic development into `C:\tools` (added to User `PATH`):
+All production tools are installed to `C:\tools` (automatically configured in User `PATH`):
 
 ### 1. Autonomous Agent Daemons
-Lightweight CDP background daemons designed for unattended agent operation in Google Antigravity IDE:
-* **`auto-accept` / `antigravity-auto-accept`**: Connects via Chrome DevTools Protocol (`port 9333`) to automatically approve confirmation dialogs (bash commands, file writes, plan approvals) without stealing mouse or keyboard focus.
+Background services for unattended agent operation:
+* **`auto-accept` / `antigravity-auto-accept`**: Connects via Chrome DevTools Protocol (port 9333) to automatically approve modal prompts (bash commands, file writes, plan approvals).
 
 ```cmd
 auto-accept                  # Launch autonomous modal approval daemon
@@ -143,23 +164,23 @@ auto-accept --mode autopilot # Aggressive autopilot approval mode
 ```
 
 ### 2. Codebase Graph Intelligence (`cbm`)
-Tree-sitter AST and SQLite graph intelligence for navigating large codebases in <350 tokens:
+Tree-sitter AST and SQLite graph intelligence for navigating codebases in <350 tokens:
 * **`cbm` / `cbm-mini`**: Instant symbol lookup, call hierarchy tracing, and architectural summaries.
 * **`codebase-memory-mcp`**: Native compiled binary backend serving the Model Context Protocol (MCP) interface.
 
 ```cmd
 cbm index <path>             # Index repository AST into SQLite graph
-cbm arch <project>           # High-level architecture & module layout (<350 tokens)
+cbm arch <project>           # High-level architecture and module layout (<350 tokens)
 cbm search <project> <sym>   # Exact symbol definition lookup (<200 tokens)
-cbm trace <project> <func>   # Complete call hierarchy & callers (<200 tokens)
+cbm trace <project> <func>   # Complete call hierarchy and callers (<200 tokens)
 cbm snippet <project> <sym>  # Extract qualified function source lines (<180 tokens)
 cbm outline <project> <file> # File-level symbol outline (<60 tokens)
 ```
 
 ### 3. Bounded High-Speed Search
 Strictly capped CLI search wrappers that eliminate runaway terminal output:
-* **`rg-mini`**: Ripgrep wrapper bounded to **20 output lines** (<80 tokens).
-* **`fd-mini`**: Directory finder capped at **20 results**.
+* **`rg-mini`**: Ripgrep wrapper bounded to 20 output lines (<80 tokens).
+* **`fd-mini`**: Directory finder capped at 20 results.
 * **`es-mini`**: Voidtools Everything IPC search for instant Windows indexing (15 results).
 * **`sg-mini`**: Structural AST pattern matching powered by `ast-grep`.
 
@@ -171,13 +192,13 @@ sg-mini "<pattern>" [lang]   # Structural AST syntax search
 ```
 
 ### 4. Ground-Truth Token Telemetry
-Forensic transcript parsers with exact BPE character counting ($1\text{ tok} \approx 3.8\text{ chars}$):
+Forensic transcript parsers with exact BPE character counting (1 token ≈ 3.8 characters):
 * **`token-tracker`**: Parses untruncated session records (`transcript_full.jsonl`) with zero synthetic multipliers.
-* **`token-audit`**: Instant terminal audit of the active session's context volume.
+* **`token-audit`**: Instant terminal audit of the active session context volume.
 * **`token-scan`**: Multi-session scanner with optional `--csv` export for analytical reporting.
 
 ```cmd
-token-audit                  # Audit active session context payload & volume
+token-audit                  # Audit active session context payload and volume
 token-scan                   # Scan all historical chat sessions
 token-scan -n 5              # Scan the last 5 sessions
 token-tracker audit --all    # Global cumulative tool cost breakdown
@@ -192,20 +213,20 @@ Evidence extraction engines that discard irrelevant code while preserving syntac
 * **`repomix --compress`**: Whole-repository Tree-sitter AST compression for full audits.
 
 ```cmd
-token-save auto "<prompt>" "<dir>" # Prune Python traceback & error context
-structural-prune <file>            # Strip non-semantic comments & docstrings
+token-save auto "<prompt>" "<dir>" # Prune Python traceback and error context
+structural-prune <file>            # Strip non-semantic comments and docstrings
 code-sig <file>                    # Extract symbol definitions without bodies
 npx repomix --compress             # Pack entire repository with AST compression
 ```
 
 ### 6. IDE Health & Memory Management
-Dedicated lifecycle utilities for Google Antigravity IDE:
+Lifecycle utilities for Google Antigravity IDE:
 * **`antigravity-brain` (`agy-brain`)**: Audits Antigravity IDE state, open sessions, and context transcript size.
 * **`antigravity-clean` (`agy-clean`)**: Purges temporary scratch scripts, cached recordings, and orphaned logs.
-* **`antigravity-check` (`agy-check`)**: Three-tier deletion audit scan (🟢 Safe / 🟡 Review / 🔴 Protected).
+* **`antigravity-check` (`agy-check`)**: Three-tier deletion audit scan (Safe / Review / Protected).
 
 ```cmd
-agy-brain                    # Inspect IDE transcript size & session health
+agy-brain                    # Inspect IDE transcript size and session health
 agy-clean                    # Purge safe scratch scripts and browser recordings
 agy-check                    # Run 3-tier deletion safety audit
 ```
@@ -213,7 +234,7 @@ agy-check                    # Run 3-tier deletion safety audit
 ### 7. Workstation Diagnostics (`/toolbox`)
 System-level diagnostic and optimization suite for high-performance agent workflows:
 * **`/status`**: Quick workstation health check (RAM %, drive space, power plan) in compact mode.
-* **`/info`**: Clean hardware and OS summary via `fastfetch` without bloated ASCII art.
+* **`/info`**: Clean hardware and OS summary via `fastfetch` without ASCII art.
 * **`/diagnose`**: Identifies top CPU and RAM consumers.
 * **`/security`**: Inspects Windows Defender shield status and active firewall profiles.
 * **`/startup`**: Audits top startup applications.
@@ -225,7 +246,7 @@ System-level diagnostic and optimization suite for high-performance agent workfl
 cmd.exe /c "toolbox Status -Compact" # Workstation telemetry (<70 tokens)
 cmd.exe /c "toolbox Diagnose"        # Analyze top resource consumers
 cmd.exe /c "toolbox Unlock <path>"   # Release locked files
-cmd.exe /c "toolbox Clean"           # Purge temp files & cache
+cmd.exe /c "toolbox Clean"           # Purge temp files and cache
 cmd.exe /c "toolbox BoostRAM"        # Emergency working set memory trim
 ```
 
@@ -237,7 +258,7 @@ cmd.exe /c "toolbox BoostRAM"        # Emergency working set memory trim
 
 ---
 
-## 🎯 The T0–T5 Unified Routing Protocol
+## T0-T5 Routing Protocol
 
 Agents operating with YURO adhere to a deterministic tool hierarchy. Apply the **FIRST** matching tier:
 
@@ -245,49 +266,20 @@ Agents operating with YURO adhere to a deterministic tool hierarchy. Apply the *
 | :--- | :--- | :--- | :--- | :--- |
 | **T0** | **Direct Answer** | Casual chat, concepts, general Q&A | *Zero tools* | 0 |
 | **T1** | **Direct File Edit** | File path or line numbers already known | `view_file(StartLine, EndLine)` + `replace_file_content` | <150 tok |
-| **T2** | **Graph Intelligence** | Architecture, symbol lookup, call hierarchies | `cbm arch`, `cbm search`, `cbm trace`, `cbm snippet` | 100–350 tok |
+| **T2** | **Graph Intelligence** | Architecture, symbol lookup, call hierarchies | `cbm arch`, `cbm search`, `cbm trace`, `cbm snippet` | 100-350 tok |
 | **T3** | **Capped Text Search** | Literal strings, regex, config keys, filenames | `rg-mini`, `fd-mini`, `es-mini` (max 20 lines) | <80 tok |
-| **T4** | **Python Traceback** | Python project + explicit error log + >20 files | `token-save auto "<prompt>" "<dir>"` | 300–600 tok |
+| **T4** | **Python Traceback** | Python project + explicit error log + >20 files | `token-save auto "<prompt>" "<dir>"` | 300-600 tok |
 | **T5** | **Full Repo Audit** | Whole-repo architectural audit in one shot | `npx repomix --compress` | Whole-repo |
 
-### 🔒 Operational Rules
-- ❌ **NEVER** run `cbm` or `grep` when the target file and line are already known. Use `view_file` directly (T1).
-- ❌ **NEVER** view full files without `StartLine` and `EndLine` parameters (max 60 lines per read).
-- ❌ **NEVER** run uncapped `Get-ChildItem -Recurse` or raw `grep` commands.
-- ❌ **NEVER** load MCP schemas eagerly; invoke the compiled `cbm` CLI directly.
+### Invariant Rules
+- Do not run `cbm` or `grep` when the target file and line are already known. Use `view_file` directly (T1).
+- Do not view full files without `StartLine` and `EndLine` parameters (max 60 lines per read).
+- Do not run uncapped `Get-ChildItem -Recurse` or raw `grep` commands.
+- Do not load MCP schemas eagerly; invoke the compiled `cbm` CLI directly.
 
 ---
 
-## 🚀 Installation & Setup
-
-### Windows (One-Click Setup)
-Run in PowerShell:
-```powershell
-git clone https://github.com/WillyEverGreen/YURO.git
-cd YURO
-.\install.ps1
-```
-
-*What `install.ps1` automates:*
-1. Deploys all 33 CLI tools, wrappers, and background daemons into `C:\tools\`.
-2. Automatically downloads and installs `codebase-memory-mcp.exe` v0.11.0 if not already present.
-3. Appends `C:\tools` to User Environment `PATH`.
-4. Synchronizes global rules to `%USERPROFILE%\.gemini\config\rules\`.
-5. Synchronizes modular skills to `%USERPROFILE%\.gemini\config\skills\`.
-6. Configures global `mcp_config.json` for Antigravity IDE and MCP clients.
-7. Executes the 11-point automated verification suite.
-
-### Linux / macOS
-```bash
-git clone https://github.com/WillyEverGreen/YURO.git
-cd YURO
-chmod +x install.sh
-./install.sh
-```
-
----
-
-## 🔌 Agent Integrations
+## Agent Integrations
 
 | Agent / Environment | Integration Mode | Configuration |
 | :--- | :--- | :--- |
@@ -299,11 +291,11 @@ chmod +x install.sh
 
 ---
 
-## 📂 Repository Layout
+## Repository Layout
 
 ```text
 YURO/
-├── yuro.png                      # Official Fox Mascot & Identity
+├── yuro.png                      # Official Mascot & Identity
 ├── cmd/                          # Production CLI tools & wrappers (33 tools)
 │   ├── auto-accept.cmd           # Antigravity IDE modal auto-approval daemon
 │   ├── antigravity-auto-accept.cmd
@@ -352,6 +344,6 @@ YURO/
 
 ---
 
-<div align="center">
-<b>YURO</b> • Engineered for Maximum Cognitive Density and Zero Context Waste. 🦊
-</div>
+## License
+
+MIT License. See [LICENSE](LICENSE) for details.

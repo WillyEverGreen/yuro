@@ -1,0 +1,39 @@
+name: Bug Report
+description: File a bug report or toolchain regression
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: Thanks for taking the time to report an issue!
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: OS version, agent environment (Antigravity IDE, Claude Code, Cursor), and Node/Python versions
+      placeholder: Windows 11, Antigravity IDE, Node v20.x, Python 3.12
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the Bug
+      description: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction Steps
+      description: Steps or commands to reproduce the issue.
+      placeholder: |
+        1. Run `cbm index .`
+        2. Run `cbm trace handle`
+        3. See error ...
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Logs or Transcript Snippets
+      description: Output from `token-audit` or terminal logs.
+      render: shell

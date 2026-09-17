@@ -1,4 +1,4 @@
-# Yuro (TokenSaver) v1.0.0 — Master Production Readiness & Final Release Gate Report
+# Yuro (TokenSaver) v1.0.0 - Master Production Readiness & Final Release Gate Report
 
 > **Final Release Status**: `VALIDATED PRODUCTION RELEASE`  
 > **Version**: `v1.0.0`  
