@@ -30,6 +30,7 @@ try {
 // ── Paths ──
 const GLOBAL_DIR = path.join(os.homedir(), '.antigravity-auto-submit');
 const STATS_FILE = path.join(GLOBAL_DIR, 'stats.json');
+const AUDIT_LOG_FILE = path.join(GLOBAL_DIR, 'session_audit.log');
 const GLOBAL_CONFIG_FILE = path.join(GLOBAL_DIR, 'config.json');
 const LOCAL_CONFIG_FILES = ['.auto-accept.json', 'auto-accept.config.json'];
 
@@ -660,10 +661,24 @@ class StatsManager {
     this.lastClicked = new Date().toISOString().replace('T', ' ').substring(0, 19);
     this.lastAction = cleanStr(action);
     this.save();
+    try {
+      if (!fs.existsSync(GLOBAL_DIR)) {
+        fs.mkdirSync(GLOBAL_DIR, { recursive: true });
+      }
+      const line = `[${new Date().toISOString()}] APPROVED: ${cleanStr(action, 200)}\n`;
+      fs.appendFileSync(AUDIT_LOG_FILE, line, 'utf8');
+    } catch (e) {}
   }
 
-  recordBlock() {
+  recordBlock(action, reason) {
     this.sessionBlocks++;
+    try {
+      if (!fs.existsSync(GLOBAL_DIR)) {
+        fs.mkdirSync(GLOBAL_DIR, { recursive: true });
+      }
+      const line = `[${new Date().toISOString()}] BLOCKED (${reason || 'guardrail'}): ${cleanStr(action, 200)}\n`;
+      fs.appendFileSync(AUDIT_LOG_FILE, line, 'utf8');
+    } catch (e) {}
   }
 
   save() {
@@ -1105,7 +1120,7 @@ class AutoSubmitDaemon {
       const blockKey = `${outcome.blockedType}:${outcome.matchedKeyword}:${actionClean}`;
       if (blockKey !== this.lastReportedBlock) {
         this.lastReportedBlock = blockKey;
-        this.stats.recordBlock();
+        this.stats.recordBlock(outcome.action, outcome.blockedType);
         if (outcome.blockedType === 'ask') {
           try { process.stdout.write('\x07'); } catch(e) {}
         this.logEvent('warn', ` PAUSED `, actionClean, `Command contains: "${outcome.matchedKeyword}" (Awaiting your manual click in chat)`, C.pillYellow);

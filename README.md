@@ -5,12 +5,12 @@
 # YURO
 
 **Bounded context engine and autonomous tooling for AI coding agents.**  
-Flagship Target: Google Antigravity IDE | Universal CLI for Claude Code, Gemini CLI, and Cursor
+Primary Target: Google Antigravity IDE | Portable Core for Claude Code, Gemini CLI, and Cursor
 
 [![CI](https://github.com/WillyEverGreen/YURO/actions/workflows/ci.yml/badge.svg)](https://github.com/WillyEverGreen/YURO/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version](https://img.shields.io/badge/version-2.0.0-green.svg)](pyproject.toml)
-[![Primary IDE](https://img.shields.io/badge/target-Google%20Antigravity-4285F4.svg)](#flagship-target-google-antigravity-ide)
+[![Platform Support](https://img.shields.io/badge/platform-Windows%20(Full)%20%7C%20Linux%2FmacOS%20(Core)-lightgrey.svg)](#platform-support-matrix)
 [![Stars](https://img.shields.io/github/stars/WillyEverGreen/YURO?style=social)](https://github.com/WillyEverGreen/YURO)
 
 ---
@@ -40,43 +40,37 @@ Agent:                                             Agent:
                                                      rg-mini "X-Powered-By"    -> 33 tokens
                                                                                   (capped header match)
 ─────────────────────────────────────────────      ─────────────────────────────────────────────
-Total Context: 15,581 tokens                       Total Context: 387 tokens (-97.5% reduction)
+Total Context: 15,581 tokens                       Total Context: 387 tokens (~97% reduction)
 ```
 
 ---
 
-## Quick Start
+## Platform Support Matrix
 
-### Windows (PowerShell)
-```powershell
-powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/WillyEverGreen/YURO/main/install.ps1 | iex"
-```
+YURO is architected in two distinct tiers:
 
-Or clone and install locally:
-```powershell
-git clone https://github.com/WillyEverGreen/YURO.git
-cd YURO
-.\install.ps1
-```
-
-### Linux / macOS
-```bash
-curl -fsSL https://raw.githubusercontent.com/WillyEverGreen/YURO/main/install.sh | bash
-```
+| Tier | Platform | Support Level | Included Components |
+| :--- | :--- | :--- | :--- |
+| **Tier 1 (Primary)** | **Windows 10 / 11** | Full Tool Suite | Complete 33 CLI tools, native `.cmd` wrappers, Everything IPC (`es-mini`), Windows diagnostics (`/status`, `/unlock`), background CDP daemon, and automated setup via `install.ps1`. |
+| **Tier 2 (Portable Core)** | **Linux / macOS** | Portable Core | Cross-platform Python & Node engines (`cbm`, `token-tracker`, `token-audit`, `token-scan`, `rg-mini`, `fd-mini`, `token-save`) with POSIX shims via `install.sh`. |
 
 ---
 
-## Flagship Target: Google Antigravity IDE
+## Safety & Execution Model (`auto-accept`)
 
-While YURO provides universal CLI binaries compatible with Claude Code, Gemini CLI, Cursor, and Codex, **its primary design target is Google Antigravity IDE**.
+Google Antigravity IDE is built around a human-in-the-loop safety model: agents propose bash commands, file modifications, and implementation plans, requiring explicit confirmation from the developer before execution.
 
-YURO integrates with Antigravity across five key touchpoints:
+The `auto-accept` daemon connects to Antigravity's local Chrome DevTools Protocol (CDP) port (`9333`) to automate repetitive modal approvals during rapid local iteration. Because unattended execution carries risks of destructive actions, `auto-accept` enforces the following guardrails:
 
-1. **Autonomous Approval Daemon (`auto-accept`)**: Direct Chrome DevTools Protocol (CDP) daemon connecting to Antigravity on port `9333`. Automatically approves tool execution, terminal commands, and implementation plan modals without taking focus from mouse or keyboard.
-2. **Ground-Truth Transcript Telemetry (`token-tracker` / `antigravity-brain`)**: Directly reads Antigravity untruncated session transcripts (`transcript_full.jsonl`). Computes exact character volumes, token usage, and per-tool payload metrics with zero synthetic multipliers.
-3. **Global Rule Synchronization**: Deploys the deterministic T0-T5 routing protocol to `%USERPROFILE%\.gemini\config\rules\` so the model autonomously selects the most token-efficient tool.
-4. **Modular Agent Skills**: Installs system diagnostic skills (`pc-toolbox`), web scrapers (`auto-scraper`), and concise output governors (`caveman-mode`) to `%USERPROFILE%\.gemini\config\skills\`.
-5. **Model Context Protocol (MCP)**: Bundles native `codebase-memory` MCP configuration for on-demand graph queries.
+1. **Keyword-Gated Halts (`askKeywords` & `skipKeywords`)**:
+   - Commands containing destructive patterns (such as `rm -rf`, `drop table`, `git push --force`, `format c:`, `del /f /s /q`) are **automatically blocked from auto-confirmation** and require manual developer action in the IDE.
+   - Operations like `git push` and `git reset --hard` pause for explicit interactive confirmation.
+2. **Fail-Safe Operation**:
+   - If Antigravity internal DOM classes or modal structures change after an upstream update, the daemon fails safe: it halts automatic clicking, emits a warning to the console, and leaves dialogs open for manual review.
+3. **Session Audit Trail**:
+   - Every approval and blocked command is appended to a local audit log at `~/.antigravity-auto-submit/session_audit.log` with timestamps, window titles, and command previews.
+
+> **Warning**: `auto-accept` is an optional developer acceleration tool intended strictly for trusted local sandboxes. Do not run unattended on production machines or untrusted repositories.
 
 ---
 
@@ -103,7 +97,7 @@ YURO sits between the agent runtime and the filesystem, intercepting unstructure
   │ CODE GRAPH (cbm)│             │ BOUNDED SEARCH  │             │ AUTONOMOUS OPS  │
   │ Tree-sitter AST │             │ rg-mini/fd-mini │             │ auto-accept CDP │
   │ SQLite Cache    │             │ Max 20 Lines    │             │ Port 9333       │
-  │ <350 tokens     │             │ <80 tokens      │             │ Background      │
+  │ <350 tokens     │             │ <80 tokens      │             │ Guardrailed     │
   └─────────────────┘             └─────────────────┘             └─────────────────┘
            │                               │                               │
            └────────────────┬──────────────┴───────────────┬───────────────┘
@@ -117,50 +111,50 @@ YURO sits between the agent runtime and the filesystem, intercepting unstructure
 
 ---
 
-## Empirical Benchmarks
+## Empirical Benchmarks & Methodology
 
-All metrics are measured against public open-source repositories using exact character token accounting (1 token ≈ 3.8 characters) from raw agent transcripts:
+All metrics are measured against genuine open-source repositories using tasks defined in `benchmarks/tasks/`. Benchmark runners and raw outputs are published in `benchmarks/run_real_opensource_validation.py` and `benchmark_report.json`.
+
+*Note on Token Accounting*: Token figures are derived using an empirical character baseline ($1\text{ token} \approx 3.8\text{ characters}$) directly from untruncated engine transcripts (`transcript_full.jsonl`). Exact BPE token counts (`cl100k_base` or `o200k_base`) will vary by 10% to 15% depending on indentation and code density.
 
 ### Benchmark 1: `expressjs/express` (64,000+ GitHub Stars)
 *Target: Node.js web framework (996 AST nodes, 1,647 call edges)*
 
-| Scenario | Task | Unbounded Baseline | YURO Optimized | Context Reduction | Latency Delta |
+| Scenario | Task | Unbounded Baseline | YURO Optimized | Reduction Range | Latency Delta |
 | :--- | :--- | :--- | :--- | :---: | :---: |
-| **1. Architecture & Deps** | Discover module layout & exports | 1,372 tok (1,043ms) | **221 tok** (2,117ms) | **-84%** | 2x slower |
-| **2. Router Call Graph** | Trace `app.handle` request pipeline | 4,043 tok (1,175ms) | **160 tok** (2,558ms) | **-96%** | 2x slower |
-| **3. Implementation Lookup**| Extract `res.json` source body | 6,871 tok (324ms) | **194 tok** (2,283ms) | **-97%** | 7x slower |
-| **4. String Search** | Find `X-Powered-By` header refs | 161 tok (500ms) | **33 tok** (87ms) | **-80%** | **6x faster** |
-| **CUMULATIVE WORKLOAD** | **4 Exploration Queries** | **12,447 tokens** | **608 tokens** | **-95.1%** | **~11,839 tokens saved** |
+| **1. Architecture & Deps** | Discover module layout & exports | 1,372 tok (1,043ms) | **221 tok** (2,117ms) | **~84%** | 2x slower |
+| **2. Router Call Graph** | Trace `app.handle` request pipeline | 4,043 tok (1,175ms) | **160 tok** (2,558ms) | **~96%** | 2x slower |
+| **3. Implementation Lookup**| Extract `res.json` source body | 6,871 tok (324ms) | **194 tok** (2,283ms) | **~97%** | 7x slower |
+| **4. String Search** | Find `X-Powered-By` header refs | 161 tok (500ms) | **33 tok** (87ms) | **~80%** | **6x faster** |
+| **CUMULATIVE WORKLOAD** | **4 Exploration Queries** | **12,447 tokens** | **608 tokens** | **85% - 95%** | **~11,839 tokens saved** |
 
 ### Benchmark 2: `pallets/flask` (66,000+ GitHub Stars)
 *Target: Python WSGI web framework (multi-file module layout)*
 
-| Scenario | Task | Unbounded Baseline | YURO Optimized | Context Reduction |
+| Scenario | Task | Unbounded Baseline | YURO Optimized | Reduction Range |
 | :--- | :--- | :--- | :--- | :---: |
-| **1. JSON Serialization** | Trace `jsonify` & `JSONProvider` pipeline | 10,000 tok (1,200ms) | **4,848 tok** (241ms) | **-51.5%** |
-| **2. URL Routing Rules** | Locate `Blueprint` & `add_url_rule` | 10,000 tok (1,150ms) | **6,457 tok** (460ms) | **-35.4%** |
-| **3. CLI Discovery** | Extract `FlaskGroup` command registration | 10,000 tok (980ms) | **5,210 tok** (195ms) | **-47.9%** |
-| **4. Session Security** | Inspect `SecureCookieSessionInterface` | 10,000 tok (1,340ms) | **4,180 tok** (280ms) | **-58.2%** |
-| **CUMULATIVE WORKLOAD** | **Full Feature Investigation** | **40,000 tokens** | **20,695 tokens** | **-48.3%** |
+| **1. JSON Serialization** | Trace `jsonify` & `JSONProvider` pipeline | 10,000 tok (1,200ms) | **4,848 tok** (241ms) | **~52%** |
+| **2. URL Routing Rules** | Locate `Blueprint` & `add_url_rule` | 10,000 tok (1,150ms) | **6,457 tok** (460ms) | **~35%** |
+| **3. CLI Discovery** | Extract `FlaskGroup` command registration | 10,000 tok (980ms) | **5,210 tok** (195ms) | **~48%** |
+| **4. Session Security** | Inspect `SecureCookieSessionInterface` | 10,000 tok (1,340ms) | **4,180 tok** (280ms) | **~58%** |
+| **CUMULATIVE WORKLOAD** | **Full Feature Investigation** | **40,000 tokens** | **20,695 tokens** | **35% - 55%** |
 
 ### Variance Analysis
-- **Monorepos and Web Applications** (e.g. Express, React apps): Yield **85% to 95%+ reduction** because call subgraphs pinpoint exact implementation blocks, eliminating multi-hundred-line file dumps.
+- **Monorepos and Web Applications** (e.g. Express, React apps): Yield **85% to 95% reduction** because call subgraphs pinpoint exact implementation blocks, eliminating multi-hundred-line file dumps.
 - **Tightly Coupled Framework Libraries** (e.g. Flask, Axios): Yield **35% to 55% reduction** because a larger proportion of core type interfaces must be retained to maintain 100% task recall.
 
 ---
 
 ## Tool Reference
 
-All production tools are installed to `C:\tools` (automatically configured in User `PATH`):
-
-### 1. Autonomous Agent Daemons
-Background services for unattended agent operation:
-* **`auto-accept` / `antigravity-auto-accept`**: Connects via Chrome DevTools Protocol (port 9333) to automatically approve modal prompts (bash commands, file writes, plan approvals).
+### 1. Autonomous Agent Daemons (Windows)
+Background services for developer acceleration in Google Antigravity IDE:
+* **`auto-accept` / `antigravity-auto-accept`**: Connects via Chrome DevTools Protocol (port 9333) with keyword guardrails to automatically approve safe modal prompts.
 
 ```cmd
-auto-accept                  # Launch autonomous modal approval daemon
+auto-accept                  # Launch guardrailed auto-approval daemon
 auto-accept --status         # Check CDP connection state and lifetime approvals
-auto-accept --mode autopilot # Aggressive autopilot approval mode
+auto-accept --mode autopilot # Autopilot mode with keyword guardrails active
 ```
 
 ### 2. Codebase Graph Intelligence (`cbm`)
@@ -187,7 +181,7 @@ Strictly capped CLI search wrappers that eliminate runaway terminal output:
 ```cmd
 rg-mini "<query>" [path]     # Bounded code search (max 20 lines)
 fd-mini "<pattern>" [path]   # Bounded file search (max 20 results)
-es-mini "<pattern>"          # Instant filename search via Everything IPC
+es-mini "<pattern>"          # Instant filename search via Everything IPC (Windows)
 sg-mini "<pattern>" [lang]   # Structural AST syntax search
 ```
 
@@ -219,7 +213,7 @@ code-sig <file>                    # Extract symbol definitions without bodies
 npx repomix --compress             # Pack entire repository with AST compression
 ```
 
-### 6. IDE Health & Memory Management
+### 6. IDE Health & Diagnostics (Windows)
 Lifecycle utilities for Google Antigravity IDE:
 * **`antigravity-brain` (`agy-brain`)**: Audits Antigravity IDE state, open sessions, and context transcript size.
 * **`antigravity-clean` (`agy-clean`)**: Purges temporary scratch scripts, cached recordings, and orphaned logs.
@@ -231,7 +225,7 @@ agy-clean                    # Purge safe scratch scripts and browser recordings
 agy-check                    # Run 3-tier deletion safety audit
 ```
 
-### 7. Workstation Diagnostics (`/toolbox`)
+### 7. Workstation Diagnostics (`/toolbox` - Windows)
 System-level diagnostic and optimization suite for high-performance agent workflows:
 * **`/status`**: Quick workstation health check (RAM %, drive space, power plan) in compact mode.
 * **`/info`**: Clean hardware and OS summary via `fastfetch` without ASCII art.
@@ -249,12 +243,6 @@ cmd.exe /c "toolbox Unlock <path>"   # Release locked files
 cmd.exe /c "toolbox Clean"           # Purge temp files and cache
 cmd.exe /c "toolbox BoostRAM"        # Emergency working set memory trim
 ```
-
-### 8. Automation & Specialized Skills
-* **`auto-scraper`**: Multi-tier web extraction engine (Direct HTTP -> agent-browser CLI -> Playwright -> CDP subagent).
-* **`playwright-cli`**: Headless browser automation runner.
-* **`md-mermaid`**: Local command-line compiler for Mermaid diagrams.
-* **`caveman-mode`**: High-density communication governor that reduces LLM output token consumption by 50%+.
 
 ---
 
@@ -279,68 +267,39 @@ Agents operating with YURO adhere to a deterministic tool hierarchy. Apply the *
 
 ---
 
-## Agent Integrations
+## Installation & Setup
 
-| Agent / Environment | Integration Mode | Configuration |
-| :--- | :--- | :--- |
-| **Google Antigravity IDE** *(Flagship)* | Native CDP Daemon (`auto-accept`), Rules & Skills Sync | Automatically configured via `install.ps1` |
-| **Claude Code** | Global CLI tools (`cbm`, `rg-mini`, `token-audit`) | Native User `PATH` integration |
-| **Gemini CLI / Codex** | System rules & execution wrappers | Linked through `%USERPROFILE%\.gemini\config\` |
-| **Cursor / VS Code** | Shell tools & terminal subagents | Included in workspace shell environment |
-| **Model Context Protocol (MCP)** | Lazy MCP server (`codebase-memory`) | Pre-configured in `mcp/mcp_config.global.json` |
+### Windows (Full Suite)
+Run in PowerShell:
+```powershell
+git clone https://github.com/WillyEverGreen/YURO.git
+cd YURO
+.\install.ps1
+```
+
+Or via one-line command:
+```powershell
+powershell -ExecutionPolicy Bypass -Command "irm https://raw.githubusercontent.com/WillyEverGreen/YURO/main/install.ps1 | iex"
+```
+
+### Linux / macOS (Portable Core)
+```bash
+git clone https://github.com/WillyEverGreen/YURO.git
+cd YURO
+chmod +x install.sh
+./install.sh
+```
 
 ---
 
-## Repository Layout
+## Third-Party Software & Licenses
 
-```text
-YURO/
-├── yuro.png                      # Official Mascot & Identity
-├── cmd/                          # Production CLI tools & wrappers (33 tools)
-│   ├── auto-accept.cmd           # Antigravity IDE modal auto-approval daemon
-│   ├── antigravity-auto-accept.cmd
-│   ├── token-tracker.js          # Ground-truth transcript parser & auditor
-│   ├── token-audit.cmd           # Instant session audit command
-│   ├── token-scan.cmd            # Multi-session scanner command
-│   ├── cbm.cmd                   # Codebase Memory graph runner
-│   ├── cbm-mini.cmd              # Graph overview & status
-│   ├── rg-mini.cmd               # Bounded ripgrep wrapper (max 20 lines)
-│   ├── fd-mini.cmd               # Bounded file search wrapper
-│   ├── es-mini.cmd               # Everything IPC search wrapper
-│   ├── sg-mini.cmd               # ast-grep structural search wrapper
-│   ├── token-save.cmd            # Python AST pruner
-│   ├── antigravity-brain.cmd     # IDE memory & transcript analyzer
-│   ├── antigravity-clean.cmd     # IDE crash/temp cleaner
-│   ├── antigravity-check.cmd     # IDE 3-tier deletion checker
-│   ├── code-sig.cmd              # Code signature extractor
-│   ├── structural-prune.cmd      # AST docstring & comment trimmer
-│   ├── playwright-cli.cmd        # Headless browser runner
-│   └── md-mermaid.cmd            # Mermaid diagram compiler
-├── daemon/                       # Background services
-│   └── auto-accept/              # Antigravity CDP auto-approval daemon source
-├── bin/                          # Standalone binaries (rg.exe, fd.exe, ast-grep.exe)
-├── rules/                        # Global agent rules
-│   ├── T0-T5-protocol.md         # Master decision protocol
-│   ├── token-saver.md            # Python traceback context rule
-│   ├── pc-commands.md            # Slash command shortcuts
-│   └── agent-browser-default.md  # Browser automation policy
-├── skills/                       # Modular Antigravity skills
-│   ├── pc-toolbox/               # Workstation CLI & diagnostics
-│   ├── auto-scraper/             # Multi-tier web extraction engine
-│   └── caveman-mode/             # High-density agent output protocol
-├── mcp/                          # Model Context Protocol configurations
-│   ├── mcp_config.global.json    # Global MCP template
-│   ├── mcp_config.ide.json       # IDE remote plugins template
-│   └── setup-guide.md            # Cross-platform MCP deployment guide
-├── src/                          # TokenSaver core Python package
-│   └── tokensaver/               # AST parsing, BM25 retrieval, evidence assembly
-├── install.ps1                   # One-click Windows PowerShell installer
-├── install.sh                    # One-click Linux/macOS Bash installer
-├── verify.ps1                    # Verification & sanity test suite (11/11 tests)
-├── package.json                  # NPM scripts & metadata (v2.0.0)
-├── pyproject.toml                # Python package metadata (v2.0.0)
-└── LICENSE                       # MIT License
-```
+YURO bundles or interfaces with several open-source tools. All respective copyrights and licenses are preserved in [THIRD_PARTY_LICENSES.md](THIRD_PARTY_LICENSES.md):
+- **ripgrep**: Andrew Gallant (BurntSushi) - MIT / Unlicense
+- **fd**: David Peter (sharkdp) - MIT / Apache-2.0
+- **ast-grep**: Herrington Darkholme - MIT
+- **codebase-memory-mcp**: DeusData - MIT
+- **repomix**: Kazuki Yamada (yamadashy) - MIT
 
 ---
 
