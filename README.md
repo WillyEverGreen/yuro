@@ -273,6 +273,49 @@ Agents operating with YURO adhere to a deterministic tool hierarchy. Apply the *
 
 ---
 
+## Known Limitations & Engineering Roadmap
+
+### Current Boundaries
+
+1. **Simulated Baseline Counterfactuals vs Live LLM Tournaments**:
+   - The replay engine measures reduction against an explicitly specified practical-agent model (target function window +/- 40 lines, 50-line terminal search buffer). While this provides deterministic, reproducible accounting without API billing overhead, it is a defined benchmark strategy rather than an empirical recording of diverse frontier LLMs executing freely.
+2. **Platform Parity for Autonomous Daemons**:
+   - The `auto-accept` CDP daemon and Voidtools Everything search (`es-mini`) are Windows-specific. The core bounded exploration stack (`cbm`, `token-tracker`, `token-replay`, `rg-mini`, `fd-mini`, `token-save`) is portable across Linux and macOS via POSIX shims, but automated browser-level approval requires Windows host access.
+3. **Tokenizer Anchoring**:
+   - Exact BPE calculations currently default to the OpenAI `cl100k_base` vocabulary via `gpt-tokenizer`. While representative of modern BPE token density, models using distinct vocabularies (e.g. `o200k_base`, Llama 3 BPE, or Gemini SentencePiece) exhibit minor variance (+/- 5% to 8%).
+4. **Graph Index Refresh Cycle**:
+   - `cbm` operates on on-demand index runs (`cbm index <path>`). It does not yet include a background file watcher daemon to incrementally update SQLite symbol nodes on every disk write.
+
+---
+
+### Phased Engineering Roadmap
+
+```text
+  Phase 1 (v2.1 - Q4 2026)      Phase 2 (v2.2 - Q1 2027)       Phase 3 (v2.3 - Q2 2027)
+  Multi-Tokenizer & CI Gate  ->  Incremental AST & LSP Bridge ->  Cross-Repo & Stream Prune
+  -------------------------      ----------------------------     -------------------------
+  * o200k / Llama / Gemini       * File watcher AST updates       * Cross-repo dependency graph
+  * Live terminal context HUD    * Language Server Protocol       * Real-time stream compressor
+  * CI token regression gate     * Headless Linux CDP daemon      * Multi-agent eval tournament
+```
+
+#### Phase 1: Multi-Tokenizer Support & CI Budget Gating (Target: v2.1 - Q4 2026)
+- **Multi-Vocabulary Tokenizer Adapter**: Support explicit `--tokenizer` flags for `o200k_base` (GPT-4o), `llama3`, and `gemini` tokenizers alongside `cl100k_base`.
+- **Live Context Turn HUD**: Optional status-line indicator displaying active session token accumulation and tool payload ratio in real time.
+- **CI Token-Budget Gate**: Pull request action (`yuro check --budget <max_tokens>`) that replays agent contribution sessions and fails builds if exploration payload budgets are breached.
+
+#### Phase 2: Incremental AST Synchronization & LSP Bridge (Target: v2.2 - Q1 2027)
+- **Incremental SQLite Graph Updates**: Background file system watcher updating changed AST nodes upon file save without requiring a full repository re-index.
+- **Language Server Protocol (LSP) Bridge**: Optional LSP integration allowing `cbm` to ingest compiler-grade type definitions, diagnostics, and interface implementations alongside Tree-sitter AST queries.
+- **Cross-Platform Headless CDP Daemon**: Headless browser attachment layer for Linux container environments and cloud workstations.
+
+#### Phase 3: Cross-Repository Graphs & Streaming Compression (Target: v2.3 - Q2 2027)
+- **Cross-Repository Dependency Graph**: AST traversal across monorepo package boundaries and external vendor libraries (`node_modules`, Python virtual environments).
+- **Streaming Tool-Output Compressor**: Intercepting runaway bash and terminal outputs in flight, applying semantic AST pruning before payloads enter model context memory.
+- **Multi-Agent Live Tournament Benchmark**: Automated headless test harness comparing unmodified frontier agents against YURO-governed agents on SWE-bench style debugging tasks.
+
+---
+
 ## Installation & Setup
 
 ### Windows (Full Suite)
