@@ -185,17 +185,23 @@ es-mini "<pattern>"          # Instant filename search via Everything IPC (Windo
 sg-mini "<pattern>" [lang]   # Structural AST syntax search
 ```
 
-### 4. Ground-Truth Token Telemetry
-Forensic transcript parsers with exact BPE character counting (1 token ≈ 3.8 characters):
+### 4. Ground-Truth Token Telemetry & Deterministic Replay
+Forensic transcript parsers with exact BPE tokenizer verification (`cl100k_base`):
+* **`token-replay`**: Deterministic counterfactual replay engine replaying session tool calls against historical repository Git snapshots.
 * **`token-tracker`**: Parses untruncated session records (`transcript_full.jsonl`) with zero synthetic multipliers.
-* **`token-audit`**: Instant terminal audit of the active session context volume.
+* **`token-audit`**: Terminal audit of active session context volume.
 * **`token-scan`**: Multi-session scanner with optional `--csv` export for analytical reporting.
 
+In our deterministic replay benchmark across multi-session workloads:
+* YURO reduced tool-return payload volume by **29.0%** versus the defined Practical-Agent Baseline B, and **75.7%** versus the Naive Baseline A.
+* Estimated cumulative context-turn exposure reduction: **36,023,844 token-turns** under Baseline B ($\sum (M - t) \times \Delta_t$).
+
 ```cmd
+token-replay                 # Run deterministic counterfactual replay on active session
+token-replay --ledger        # Inspect per-step ledger with resolution source and SHA-256 hashes
+token-replay --all           # Aggregate deterministic replay across all historical sessions
 token-audit                  # Audit active session context payload and volume
 token-scan                   # Scan all historical chat sessions
-token-scan -n 5              # Scan the last 5 sessions
-token-tracker audit --all    # Global cumulative tool cost breakdown
 token-scan --csv > data.csv  # Export metrics to CSV for analysis
 ```
 

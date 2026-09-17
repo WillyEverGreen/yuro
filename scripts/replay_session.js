@@ -590,7 +590,7 @@ function printReplayReport(data, showLedger = false) {
 
   console.log(' 1. OBSERVED TRANSCRIPT TELEMETRY:');
   console.log(`  Character Metric: EXACT`);
-  console.log(`  Token Metric:     ${tokenizerMode.startsWith('EXACT') ? 'EXACT (cl100k_base BPE via gpt-tokenizer)' : 'ESTIMATED (3.8 chars/token fallback)'}`);
+  console.log(`  Token Metric:     ${tokenizerMode.startsWith('EXACT') ? 'Exact cl100k_base BPE tokens (gpt-tokenizer)' : 'Estimated (3.8 chars/token fallback)'}`);
   console.log('');
   console.log(`  * Total Transcript Volume:        ${observed.totalChars.toLocaleString().padStart(12)} chars   (${observed.totalTokens.toLocaleString().padStart(8)} tokens)`);
   console.log(`  * Tool Return Payloads:           ${observed.toolOutputChars.toLocaleString().padStart(12)} chars   (${observed.toolOutputTokens.toLocaleString().padStart(8)} tokens)`);
@@ -604,14 +604,14 @@ function printReplayReport(data, showLedger = false) {
   console.log('  Configuration                         Tool Tokens    Delta vs Actual   Payload Reduction');
   console.log('  ' + '-'.repeat(78));
   console.log(`  Baseline A (Naive / Unbounded)       ${counterfactual.baselineATokens.toLocaleString().padStart(10)} tok     (Worst-Case)         --`);
-  console.log(`  Baseline B (Practical Agent)         ${counterfactual.baselineBTokens.toLocaleString().padStart(10)} tok     (Realistic)          --`);
+  console.log(`  Baseline B (Practical-Agent Sim)     ${counterfactual.baselineBTokens.toLocaleString().padStart(10)} tok     (Defined Strategy)   --`);
   console.log(`  Baseline C (YURO Active Payload)     ${counterfactual.actualToolTokens.toLocaleString().padStart(10)} tok     (Observed)           --`);
   console.log('  ' + '-'.repeat(78));
   console.log(`  Reduction in tool-return payload volume vs Baseline A:   -${counterfactual.reductionPctA}%   (${counterfactual.immediateSavingsA.toLocaleString()} tokens avoided)`);
   console.log(`  Reduction in tool-return payload volume vs Baseline B:   -${counterfactual.reductionPctB}%   (${counterfactual.immediateSavingsB.toLocaleString()} tokens avoided)`);
   console.log('-'.repeat(84));
 
-  console.log(' 3. PER-TOOL COUNTERFACTUAL BREAKDOWN (vs Baseline B Practical):');
+  console.log(' 3. PER-TOOL COUNTERFACTUAL BREAKDOWN (vs Baseline B Practical-Agent Sim):');
   console.log('');
   console.log('  Tool Category       Calls     Observed Tok     Baseline B Tok   Immediate Savings');
   console.log('  ' + '-'.repeat(78));
@@ -634,7 +634,7 @@ function printReplayReport(data, showLedger = false) {
 
   console.log(' 5. TASK-EQUIVALENT BASELINE SPECIFICATION:');
   console.log('  * Baseline A (Naive): Full source files retrieved from git snapshot; uncapped search output.');
-  console.log('  * Baseline B (Practical): Sibling function context (target +/- 40 lines); 50-line terminal buffer.');
+  console.log('  * Baseline B (Practical-Agent Sim): Sibling function context (target +/- 40 lines); 50-line terminal buffer.');
   console.log('  * Baseline C (YURO): Exact AST subgraph queries and bounded line slices recorded in session.');
   console.log('='.repeat(84) + '\n');
 
