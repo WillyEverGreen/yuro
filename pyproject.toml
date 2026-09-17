@@ -34,8 +34,8 @@ Repository = "https://github.com/WillyEverGreen/YURO.git"
 Issues = "https://github.com/WillyEverGreen/YURO/issues"
 
 [project.scripts]
-token-save = "utilities.token-save:main"
-yuro = "utilities.token-save:main"
+token-save = "utilities.token_save:main"
+yuro = "utilities.token_save:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

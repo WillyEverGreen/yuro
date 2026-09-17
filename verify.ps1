@@ -9,6 +9,8 @@ $checks = @(
     @{ Name = "rg-mini.cmd"; Path = "cmd\rg-mini.cmd" },
     @{ Name = "fd-mini.cmd"; Path = "cmd\fd-mini.cmd" },
     @{ Name = "auto-accept.cmd"; Path = "cmd\auto-accept.cmd" },
+    @{ Name = "token-replay.cmd"; Path = "cmd\token-replay.cmd" },
+    @{ Name = "replay_session.js"; Path = "scripts\replay_session.js" },
     @{ Name = "T0-T5 Protocol"; Path = "rules\T0-T5-protocol.md" },
     @{ Name = "TokenSaver Rule"; Path = "rules\token-saver.md" },
     @{ Name = "PC-Toolbox Skill"; Path = "skills\pc-toolbox\SKILL.md" }
@@ -34,4 +36,13 @@ try {
     Write-Host " [FAIL] token-tracker failed: $_" -ForegroundColor Red
 }
 
-Write-Host "`nVerification Summary: $passed/$($checks.Count + 1) checks passed." -ForegroundColor Cyan
+Write-Host "`nTesting token-replay execution:" -ForegroundColor Yellow
+try {
+    & node "$PSScriptRoot\scripts\replay_session.js"
+    Write-Host " [PASS] token-replay execution successful" -ForegroundColor Green
+    $passed++
+} catch {
+    Write-Host " [FAIL] token-replay failed: $_" -ForegroundColor Red
+}
+
+Write-Host "`nVerification Summary: $passed/$($checks.Count + 2) checks passed." -ForegroundColor Cyan

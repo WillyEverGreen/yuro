@@ -9,6 +9,7 @@ __pycache__/
 .tokensaver-cache/
 
 # Environments & IDEs
+node_modules/
 .venv/
 env/
 venv/
@@ -19,6 +20,7 @@ venv/
 build/
 dist/
 *.egg-info/
+uv.lock
 
 # Third-party benchmark clones & personal project validation suites
 validation/real_opensource/flask/

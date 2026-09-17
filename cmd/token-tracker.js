@@ -716,7 +716,71 @@ function printReplayReport(data, showLedger = false) {
   }
 }
 
+let replayEngine = null;
+try {
+  replayEngine = require('../scripts/replay_session.js');
+} catch (e) {
+  try {
+    replayEngine = require('./replay_session.js');
+  } catch (e2) {}
+}
+
 function cmdReplay(args, sessions) {
+  if (replayEngine) {
+    const showLedger = args.includes('--ledger');
+    const repoRoot = process.cwd();
+
+    if (args.includes('--all')) {
+      const reports = sessions.map(s => replayEngine.replaySession(s, repoRoot));
+      const agg = replayEngine.aggregateReplays(reports);
+
+      if (args.includes('--json')) {
+        console.log(JSON.stringify(agg, null, 2));
+        return;
+      }
+
+      if (args.includes('--csv')) {
+        console.log('Step,Turn,Tool,Target,Source,ActualTokens,BaselineATokens,BaselineBTokens,DeltaATokens,DeltaBTokens,CompoundedATokens,CompoundedBTokens');
+        for (const l of agg.ledger) {
+          console.log(`${l.step},${l.turn},"${l.tool}","${l.target.replace(/"/g, '""')}","${l.source}",${l.actual_tokens},${l.baselineA_tokens},${l.baselineB_tokens},${l.deltaA_tokens},${l.deltaB_tokens},${l.compoundedA_tokens},${l.compoundedB_tokens}`);
+        }
+        return;
+      }
+
+      replayEngine.printReplayReport(agg, showLedger);
+      return;
+    }
+
+    let target = sessions[0];
+    const idArg = args.find(a => !a.startsWith('-') && a !== 'replay');
+    if (idArg) {
+      const found = sessions.find(s => s.id.startsWith(idArg));
+      if (!found) {
+        console.error(`Session matching "${idArg}" not found.`);
+        process.exit(1);
+      }
+      target = found;
+    }
+
+    const replayData = replayEngine.replaySession(target, repoRoot);
+
+    if (args.includes('--json')) {
+      console.log(JSON.stringify(replayData, null, 2));
+      return;
+    }
+
+    if (args.includes('--csv')) {
+      console.log('Step,Turn,Tool,Target,Source,ActualTokens,BaselineATokens,BaselineBTokens,DeltaATokens,DeltaBTokens,CompoundedATokens,CompoundedBTokens');
+      for (const l of replayData.ledger) {
+        console.log(`${l.step},${l.turn},"${l.tool}","${l.target.replace(/"/g, '""')}","${l.source}",${l.actual_tokens},${l.baselineA_tokens},${l.baselineB_tokens},${l.deltaA_tokens},${l.deltaB_tokens},${l.compoundedA_tokens},${l.compoundedB_tokens}`);
+      }
+      return;
+    }
+
+    replayEngine.printReplayReport(replayData, showLedger);
+    return;
+  }
+
   const showLedger = args.includes('--ledger');
 
   if (args.includes('--all')) {

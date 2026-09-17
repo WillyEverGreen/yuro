@@ -7,6 +7,7 @@
     "token-tracker": "cmd/token-tracker.js",
     "token-audit": "cmd/token-tracker.js",
     "token-scan": "cmd/token-tracker.js",
+    "token-replay": "scripts/replay_session.js",
     "auto-accept": "daemon/auto-accept/auto-accept.js"
   },
   "repository": {
@@ -21,6 +22,7 @@
     "test": "powershell -ExecutionPolicy Bypass -File ./verify.ps1",
     "scan": "node cmd/token-tracker.js scan",
     "audit": "node cmd/token-tracker.js audit",
+    "replay": "node scripts/replay_session.js",
     "install:win": "powershell -ExecutionPolicy Bypass -File ./install.ps1",
     "install:unix": "bash ./install.sh"
   },
@@ -43,5 +45,8 @@
     "yuro"
   ],
   "author": "WillyEverGreen",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "gpt-tokenizer": "^4.0.0"
+  }
 }
