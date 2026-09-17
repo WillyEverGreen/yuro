@@ -31,7 +31,11 @@ if (Test-Path $cmdDir) {
 if (Test-Path $binDir) {
     Copy-Item -Path "$binDir\*" -Destination $ToolsDir -Force -Recurse
 }
-Write-Host "      Copied CLI tools and binaries successfully." -ForegroundColor Green
+$daemonDir = Join-Path $PSScriptRoot "daemon"
+if (Test-Path $daemonDir) {
+    Copy-Item -Path "$daemonDir" -Destination $ToolsDir -Force -Recurse
+}
+Write-Host "      Copied CLI tools, binaries, and daemons successfully." -ForegroundColor Green
 
 # 3. Download codebase-memory-mcp binary if not present
 $cbmExe = Join-Path $ToolsDir "codebase-memory-mcp.exe"

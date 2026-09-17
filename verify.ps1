@@ -8,6 +8,7 @@ $checks = @(
     @{ Name = "cbm.cmd"; Path = "cmd\cbm.cmd" },
     @{ Name = "rg-mini.cmd"; Path = "cmd\rg-mini.cmd" },
     @{ Name = "fd-mini.cmd"; Path = "cmd\fd-mini.cmd" },
+    @{ Name = "auto-accept.cmd"; Path = "cmd\auto-accept.cmd" },
     @{ Name = "T0-T5 Protocol"; Path = "rules\T0-T5-protocol.md" },
     @{ Name = "TokenSaver Rule"; Path = "rules\token-saver.md" },
     @{ Name = "PC-Toolbox Skill"; Path = "skills\pc-toolbox\SKILL.md" }
