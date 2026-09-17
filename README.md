@@ -133,48 +133,85 @@ All metrics are measured against genuine, public open-source repositories using 
 YURO consolidates every tool required for high-efficiency agentic development into `C:\tools` (added to User `PATH`):
 
 ### 1. Autonomous Agent Daemons
-* **`auto-accept` / `antigravity-auto-accept`**: Lightweight CDP background daemon for Google Antigravity IDE. Listens on debugging port `9333` and automatically confirms modal prompts (commands, file operations, plan approval) so long-running sessions never hang waiting for manual clicks.
-  ```cmd
-  auto-accept                  # Launch autonomous modal approval daemon
-  auto-accept --status         # Check CDP connection state and lifetime approvals
-  auto-accept --mode autopilot # Aggressive autopilot approval mode
-  ```
+Lightweight CDP background daemons designed for unattended agent operation in Google Antigravity IDE:
+* **`auto-accept` / `antigravity-auto-accept`**: Connects via Chrome DevTools Protocol (`port 9333`) to automatically approve confirmation dialogs (bash commands, file writes, plan approvals) without stealing mouse or keyboard focus.
+
+```cmd
+auto-accept                  # Launch autonomous modal approval daemon
+auto-accept --status         # Check CDP connection state and lifetime approvals
+auto-accept --mode autopilot # Aggressive autopilot approval mode
+```
 
 ### 2. Codebase Graph Intelligence (`cbm`)
-* **`cbm` / `cbm-mini`**: Tree-sitter AST SQLite code graph engine. Indexes entire repositories in seconds and answers structural questions in <350 tokens.
-  ```cmd
-  cbm index <path>             # Index repository AST into SQLite graph
-  cbm arch <project>           # High-level architecture & module layout (<350 tokens)
-  cbm search <project> <symbol># Exact symbol definition lookup (<200 tokens)
-  cbm trace <project> <func>   # Complete call hierarchy & callers (<200 tokens)
-  cbm snippet <project> <name> # Extract qualified function source lines (<180 tokens)
-  cbm outline <project> <file> # File-level symbol outline (<60 tokens)
-  ```
-* **`codebase-memory-mcp`**: Native compiled binary powering the MCP server interface for IDEs.
+Tree-sitter AST and SQLite graph intelligence for navigating large codebases in <350 tokens:
+* **`cbm` / `cbm-mini`**: Instant symbol lookup, call hierarchy tracing, and architectural summaries.
+* **`codebase-memory-mcp`**: Native compiled binary backend serving the Model Context Protocol (MCP) interface.
+
+```cmd
+cbm index <path>             # Index repository AST into SQLite graph
+cbm arch <project>           # High-level architecture & module layout (<350 tokens)
+cbm search <project> <sym>   # Exact symbol definition lookup (<200 tokens)
+cbm trace <project> <func>   # Complete call hierarchy & callers (<200 tokens)
+cbm snippet <project> <sym>  # Extract qualified function source lines (<180 tokens)
+cbm outline <project> <file> # File-level symbol outline (<60 tokens)
+```
 
 ### 3. Bounded High-Speed Search
-* **`rg-mini`**: Ripgrep wrapper strictly bounded to **20 output lines** (<80 tokens). Eliminates runaway terminal output.
-* **`fd-mini`**: Fast directory finder capped at **20 results**.
-* **`es-mini`**: Voidtools Everything IPC search wrapper for instant Windows file indexing (15 results).
+Strictly capped CLI search wrappers that eliminate runaway terminal output:
+* **`rg-mini`**: Ripgrep wrapper bounded to **20 output lines** (<80 tokens).
+* **`fd-mini`**: Directory finder capped at **20 results**.
+* **`es-mini`**: Voidtools Everything IPC search for instant Windows indexing (15 results).
 * **`sg-mini`**: Structural AST pattern matching powered by `ast-grep`.
 
+```cmd
+rg-mini "<query>" [path]     # Bounded code search (max 20 lines)
+fd-mini "<pattern>" [path]   # Bounded file search (max 20 results)
+es-mini "<pattern>"          # Instant filename search via Everything IPC
+sg-mini "<pattern>" [lang]   # Structural AST syntax search
+```
+
 ### 4. Ground-Truth Token Telemetry
-* **`token-tracker`**: Forensic parser that directly processes engine transcripts (`transcript_full.jsonl`). Uses unbiased BPE character counts ($1\text{ tok} \approx 3.8\text{ chars}$) with zero fabricated multipliers.
-* **`token-audit`**: Instant terminal audit of the active session's character volume, token count, and step history.
-* **`token-scan`**: Multi-session scanner across all historical chat sessions with `--csv` export support.
+Forensic transcript parsers with exact BPE character counting ($1\text{ tok} \approx 3.8\text{ chars}$):
+* **`token-tracker`**: Parses untruncated session records (`transcript_full.jsonl`) with zero synthetic multipliers.
+* **`token-audit`**: Instant terminal audit of the active session's context volume.
+* **`token-scan`**: Multi-session scanner with optional `--csv` export for analytical reporting.
+
+```cmd
+token-audit                  # Audit active session context payload & volume
+token-scan                   # Scan all historical chat sessions
+token-scan -n 5              # Scan the last 5 sessions
+token-tracker audit --all    # Global cumulative tool cost breakdown
+token-scan --csv > data.csv  # Export metrics to CSV for analysis
+```
 
 ### 5. Context Pruning & Compression
+Evidence extraction engines that discard irrelevant code while preserving syntactic invariants:
 * **`token-save` / `tokensaver-v5`**: AST context compression engine for Python tracebacks and error logs.
 * **`structural-prune`**: AST-level comment and docstring optimizer preserving executable invariants.
-* **`code-sig`**: Extracts clean class and function signature definitions without function bodies.
-* **`repomix --compress`**: Whole-repository Tree-sitter AST compression for comprehensive reviews.
+* **`code-sig`**: Class and function signature extractor.
+* **`repomix --compress`**: Whole-repository Tree-sitter AST compression for full audits.
+
+```cmd
+token-save auto "<prompt>" "<dir>" # Prune Python traceback & error context
+structural-prune <file>            # Strip non-semantic comments & docstrings
+code-sig <file>                    # Extract symbol definitions without bodies
+npx repomix --compress             # Pack entire repository with AST compression
+```
 
 ### 6. IDE Health & Memory Management
+Dedicated lifecycle utilities for Google Antigravity IDE:
 * **`antigravity-brain` (`agy-brain`)**: Audits Antigravity IDE state, open sessions, and context transcript size.
 * **`antigravity-clean` (`agy-clean`)**: Purges temporary scratch scripts, cached recordings, and orphaned logs.
 * **`antigravity-check` (`agy-check`)**: Three-tier deletion audit scan (🟢 Safe / 🟡 Review / 🔴 Protected).
 
+```cmd
+agy-brain                    # Inspect IDE transcript size & session health
+agy-clean                    # Purge safe scratch scripts and browser recordings
+agy-check                    # Run 3-tier deletion safety audit
+```
+
 ### 7. Workstation Diagnostics (`/toolbox`)
+System-level diagnostic and optimization suite for high-performance agent workflows:
 * **`/status`**: Quick workstation health check (RAM %, drive space, power plan) in compact mode.
 * **`/info`**: Clean hardware and OS summary via `fastfetch` without bloated ASCII art.
 * **`/diagnose`**: Identifies top CPU and RAM consumers.
@@ -183,6 +220,14 @@ YURO consolidates every tool required for high-efficiency agentic development in
 * **`/unlock <path>`**: Detects and unlocks file-locking process IDs via Windows Restart Manager.
 * **`/clean`**: Runs safe system temp, pip, and npm cache purges.
 * **`/boost`**: Trims working set memory when system commit charge approaches limits.
+
+```cmd
+cmd.exe /c "toolbox Status -Compact" # Workstation telemetry (<70 tokens)
+cmd.exe /c "toolbox Diagnose"        # Analyze top resource consumers
+cmd.exe /c "toolbox Unlock <path>"   # Release locked files
+cmd.exe /c "toolbox Clean"           # Purge temp files & cache
+cmd.exe /c "toolbox BoostRAM"        # Emergency working set memory trim
+```
 
 ### 8. Automation & Specialized Skills
 * **`auto-scraper`**: Multi-tier web extraction engine (Direct HTTP -> agent-browser CLI -> Playwright -> CDP subagent).
