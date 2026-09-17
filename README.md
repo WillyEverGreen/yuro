@@ -1,161 +1,295 @@
-<p align="center">
-  <img src="yuro.png" alt="Yuro mascot" width="240">
-</p>
+<div align="center">
 
-<h1 align="center">🦊 Yuro</h1>
+<img src="yuro.png" alt="Yuro Mascot" width="260" style="margin-bottom: 15px;" />
 
-<p align="center">
-  <b>A local-first code context & evidence optimization engine for AI coding agents.</b>
-</p>
+# YURO
 
-<p align="center">
-  <a href="https://github.com/WillyEverGreen/token-saver/actions"><img src="https://img.shields.io/badge/build-passing-brightgreen?style=flat-square" alt="Build"></a>
-  <a href="validation/final/production_readiness_report.md"><img src="https://img.shields.io/badge/release-v1.0.0-blue?style=flat-square" alt="Release"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-orange?style=flat-square" alt="License"></a>
-  <a href="pyproject.toml"><img src="https://img.shields.io/badge/python-3.8+-blue?style=flat-square" alt="Python"></a>
-  <a href="validation/real_opensource/real_opensource_benchmark.json"><img src="https://img.shields.io/badge/task%20success-100%25-success?style=flat-square" alt="Validation"></a>
-</p>
+**Unified Code Graph Intelligence, Zero-Waste Context Engine & Toolchain for AI Coding Agents**
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
+[![Release](https://img.shields.io/badge/Release-v2.0.0%20Unified-blue.svg)](pyproject.toml)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen.svg)](#-quick-start--installation)
+[![Context Reduction](https://img.shields.io/badge/Context%20Reduction--87%25%20Empirical-success.svg)](#-empirical-benchmark-yuro-vs-no-stack-baseline)
+[![Protocol](https://img.shields.io/badge/Protocol-T0--T5%20Tiered-purple.svg)](#-how-everything-works-together-the-unified-ecosystem)
+[![Tools](https://img.shields.io/badge/Tools-33%20Integrated%20Utilities-cyan.svg)](#-complete-tool-catalog)
 
 ---
 
-Yuro analyzes software repositories locally to find the minimum sufficient code context required for an LLM coding task. Instead of concatenating entire file trees into model prompt windows, Yuro performs AST parsing, symbol indexing, lexical BM25 ranking, and static call graph traversal to select, compress, and budget evidence before an API call is made.
+</div>
 
-The core objective is **maximum task performance per model-visible token**: spending cheap local CPU compute to eliminate redundant context without degrading task resolution.
+## Overview
 
----
+Modern AI coding agents (Claude, Gemini, GPT) are notoriously inefficient with context. When an agent searches for a function or attempts to understand an unfamiliar codebase, it often runs recursive directory scans, uncapped file greps, and dumps 10 full files straight into prompt memory—burning **15,000 to 40,000 tokens** on queries that can be answered in **under 350 tokens**.
 
-## 🎯 Key Design Principles
+Because LLM context accumulates turn-over-turn, early token bloat compounds over every subsequent message, rapidly triggering model amnesia, high API costs, and context compaction.
 
-* **Minimum Sufficient Context**: Extracts only the symbol definitions, signatures, and implementation subgraphs required for the task.
-* **Deterministic Economics Gate**: Calculates exact net token savings (`Raw Context - Selected Evidence - Overhead`). Optimization is automatically bypassed if net savings are non-positive or if broad context is required.
-* **AST Structural Equivalence**: Verifies that executable source AST remains identical (`executable_ast_before == executable_ast_after`). Prunes only non-executable material (comments, docstrings, formatting) and falls back to original source on syntactic ambiguity.
-* **Local-First Execution**: Indexing, lexical retrieval, graph resolution, AST compression, and budgeting run locally on disk. Yuro requires no remote vector database or hosted retrieval pipeline.
-
----
-
-## ⚙️ How Yuro Works
-
-When a coding task is submitted, Yuro executes a local 5-stage pipeline:
-
-1. **Structural Indexing**: Parses source files using Tree-Sitter ASTs to extract symbols, definitions, type signatures, imports, and exports into a local SQLite index.
-2. **Hybrid Retrieval**: Combines BM25 term frequency scoring, natural language query expansion, static caller/callee graph traversal, and local semantic fallback to score candidate code units.
-3. **Progressive Evidence Assembly**: Ranks candidates into progressive evidence depths:
-   * **L0**: Module layout and file organization
-   * **L1**: Interface signatures, docstrings, and symbol dependencies
-   * **L2**: Target function implementations and callee bodies
-4. **AST-Safe Compression**: Trims comments and non-executable syntax while verifying structural equivalence.
-5. **Economics Gating**: Compares target context size against token budgets. If the selected evidence is sufficient and produces positive net token savings, Yuro emits the optimized payload; otherwise, it bypasses optimization and preserves the original context.
+**YURO** solves this by uniting:
+1. **Local Code Graph Intelligence (`cbm`)**: AST-indexed SQLite call graphs and dependency maps that answer architectural questions in under 350 tokens.
+2. **Hard-Capped Mini Wrappers (`rg-mini`, `fd-mini`)**: Enforced 20-line boundaries that prevent catastrophic terminal context dumps.
+3. **Ground-Truth Token Auditor (`token-audit`, `token-scan`)**: Real-time forensic parser reading untruncated engine transcripts to track exact characters, tokens, and context leaks.
+4. **AST Context Compression (`token-save` / Yuro Core)**: Safe AST-level pruning for Python error logs and tracebacks.
+5. **Tiered Tool Routing (T0–T5)**: Strict decision protocol that prevents exploration tool chaining and unnecessary searches.
+6. **Workstation & Diagnostic Automation (`pc-toolbox`)**: RAM boosting, temporary cache purges, and background process telemetry.
 
 ---
 
-## 🏗️ Architecture Overview
+## How Everything Works Together: The Unified Ecosystem
 
-* **Input Governor**: Controls context selection, AST compression, symbol ranking, and token budgeting before calling the LLM.
-* **Output Governor (Caveman Mode)**: An optional middleware layer that constrains LLM output verbosity, trimming prose boilerplate while maintaining code diff accuracy.
-
----
-
-## 📊 Real-World Validation
-
-Evaluated across open-source production repositories using exact `tiktoken` accounting (`cl100k_base`):
-
-| Repository | Language / Stack | Tasks | Task Success Rate | Whole-Workload Net Savings | p50 Local Latency |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| [Axios](https://github.com/axios/axios) | JavaScript / TypeScript | 5 | **100%** | **39.72%** | 77.08 ms |
-| [Flask](https://github.com/pallets/flask) | Python | 5 | **100%** | **35.77%** | 241.85 ms |
-
-> **10 tasks evaluated across independent open-source repositories: 100% sufficient-evidence task success.**
-
-*Note: Savings depend on codebase density and task scope. Highly coupled, compact libraries (e.g. Axios, Flask) retain a higher proportion of core structural files (~35-40% savings) to preserve task sufficiency, whereas larger monorepos achieve 85-90%+ net reduction.*
-
----
-
-## 🌐 Language Support Matrix
-
-| Language | AST Symbol Parsing | Lexical Retrieval | Static Call Graph | Safe AST Compression |
-| :--- | :---: | :---: | :---: | :---: |
-| **Python** (`.py`) | ✅ | ✅ | ✅ | ✅ |
-| **JavaScript** (`.js`, `.mjs`) | ✅ | ✅ | ✅ | ✅ |
-| **TypeScript** (`.ts`) | ✅ | ✅ | ✅ | ✅ |
-| **JSX** (`.jsx`) | ✅ | ✅ | ✅ | ✅ |
-| **TSX** (`.tsx`) | ✅ | ✅ | ✅ | ✅ |
-
----
-
-## 🛠️ Installation
-
-```bash
-git clone https://github.com/WillyEverGreen/token-saver.git
-cd token-saver
-pip install -e .
-```
-
----
-
-## 💻 Quickstart
-
-```bash
-# Automatically optimize code context for a prompt
-token-save auto "Trace authentication middleware flow" .
-
-# Inspect context decision routing and candidate evidence levels
-token-save explain "Trace authentication middleware flow" .
-
-# View local token accounting and budget diagnostics
-token-save metrics --json
-```
-
----
-
-## 🔬 Testing & Verification
-
-Yuro includes an 8-tier verification suite covering unit, integration, edge-case, property, and performance tests:
-
-```bash
-py -m unittest discover -s tests -t . -p "test_*.py"
-```
-
-* **Current Release Gate**: 35/35 tests passing cleanly.
-* **Master Audit Report**: See [Production Readiness Report](validation/final/production_readiness_report.md).
-
----
-
-## 📂 Project Structure
+Every tool in Yuro has a precise role within the cognitive workflow. No tool steps on another:
 
 ```text
-src/
-└── tokensaver/
-    ├── core/           # Pipeline engine, admission gate, economics gate, tokenizer
-    ├── indexing/       # Multi-language AST parsers (Python, TS, TSX, JS) & SQLite index
-    ├── retrieval/      # Hybrid BM25, query expansion, symbol graph & semantic fallback
-    ├── evidence/       # L0/L1/L2 evidence assembler & AST safe compressor
-    └── output/         # Output token governor & formatting adapters
-tests/                  # Unit, integration, property, regression, and performance tests
-benchmarks/             # Benchmark runners and reproducibility scripts
-validation/             # JSON audit artifacts and release gate logs
+                                 ┌──────────────────────────────┐
+                                 │     User Request / Task      │
+                                 └──────────────┬───────────────┘
+                                                │
+                                    [T0-T5 Decision Gate]
+                                                │
+          ┌─────────────────┬───────────────────┼───────────────────┬─────────────────┐
+          ▼                 ▼                   ▼                   ▼                 ▼
+        [T0]              [T1]                [T2]                [T3]              [T4]
+     Direct Q&A        Target Known        Architecture        Search & Find      Python Bug
+      (0 tools)        (File Slicing)       (Graph AST)        (Capped Search)    (AST Prune)
+          │                 │                   │                   │                 │
+    Pure Answer      view_file(L1-L60)     cbm arch/trace       rg-mini / fd-mini  token-save
+                     replace_content       snippet (<350t)       (<20 lines, <80t)    auto
+          │                 │                   │                   │                 │
+          └─────────────────┴───────────────────┼───────────────────┴─────────────────┘
+                                                │
+                                                ▼
+                               ┌─────────────────────────────────┐
+                               │  System Maintenance & Telemetry │
+                               │  - agy-brain (memory health)    │
+                               │  - agy-clean (purge crash logs) │
+                               │  - pc-toolbox (RAM / disk)      │
+                               │  - auto-scraper (web browser)   │
+                               └────────────────┬────────────────┘
+                                                │
+                                                ▼
+                               ┌─────────────────────────────────┐
+                               │    Ground-Truth Token Auditor   │
+                               │    token-audit / token-scan     │
+                               │  (Inspects untruncated logs,    │
+                               │   measures exact ROI & leaks)   │
+                               └─────────────────────────────────┘
 ```
 
-*Note: The underlying Python package name remains `tokensaver` for backwards compatibility; Yuro is the public project name.*
+---
+
+## Empirical Benchmark: Yuro vs. No-Stack Baseline
+
+Tested head-to-head on the production `Techtruction` React codebase:
+
+```text
+══════════════════════════════════════════════════════════════════════════════════════════
+          BRUTAL EMPIRICAL BENCHMARK: OPTIMIZED STACK vs NO-STACK BASELINE
+══════════════════════════════════════════════════════════════════════════════════════════
+ Target Repo:      Techtruction (React 18, React Router, Context API)
+ Evaluation Mode:  Ground-Truth Payload Characters & Estimated Tokens (3.8 ch/tok)
+──────────────────────────────────────────────────────────────────────────────────────────
+ Scenario                  No-Stack Payload        YURO Payload          Context Reduction
+ ────────────────────────────────────────────────────────────────────────────────────────
+ 1. Architecture & Deps    1,615 tok (941ms)       329 tok (2429ms)            -80%
+ 2. Call Graph & Tracing   2,284 tok (941ms)       212 tok (2148ms)            -91%
+ 3. Literal String Search  72 tok (355ms)          21 tok (75ms)               -71% (5x faster)
+ 4. Function Source Lookup 1,621 tok (253ms)       163 tok (2195ms)            -90%
+──────────────────────────────────────────────────────────────────────────────────────────
+ CUMULATIVE TOTALS:        5,592 tokens            725 tokens                  -87%
+══════════════════════════════════════════════════════════════════════════════════════════
+```
+
+> **The Tradeoff**: A ~1.5 second local graph traversal eliminates **87% of context bloat**. Across a 30-turn session, this prevents **~146,000 token-turns** from compounding and re-billing.
 
 ---
 
-## 🔒 Security & Privacy
+## Complete Tool Catalog
 
-All repository scanning, AST parsing, symbol graph construction, lexical scoring, and token budgeting execute **100% locally on your machine**. Yuro does not use external vector databases, remote retrieval services, or telemetry tracking. Only the final selected evidence payload is passed to your configured LLM backend.
+Yuro organizes all 33 integrated utilities into 7 coordinated domains:
 
-For security concerns, please refer to [SECURITY.md](SECURITY.md).
+### 1. Token Tracking & Context Auditing Engine
+* **`token-audit`**: Forensic single-session auditor. Parses untruncated logs (`transcript_full.jsonl`) to report exact characters, estimated tokens, prompt-vs-output ratio, tool overhead, and alerts on heavy context dumps (>500 tokens).
+* **`token-scan`**: Multi-session scanner. Aggregates all conversations across history with step counts, total characters, token volumes, and extracted session intents.
+* **`token-tracker live`**: Real-time ticker. Watches active chat sessions live and updates token expenditure as tools run.
+
+### 2. Code Graph & Architecture Intelligence
+* **`cbm`**: High-speed CLI wrapper for Codebase Memory. Traverses AST-indexed SQLite graphs in `--quiet` mode.
+  - `cbm arch <project>`: Instant architecture summary (nodes, edges, packages, frameworks) in **<350 tokens**.
+  - `cbm search <project> <query>`: Qualified symbol lookup in **<200 tokens**.
+  - `cbm trace <project> <function>`: Call graph hierarchy ("who calls X and what does X call") in **<200 tokens**.
+  - `cbm snippet <project> <symbol>`: Extracts target function source lines by qualified name in **<180 tokens**.
+* **`cbm-mini`**: Formatted high-level project summary wrapper.
+* **`code-sig`**: Fast AST function/class signature extractor.
+* **`repo_indexer`**: Automatic repository AST indexer and graph cache generator.
+
+### 3. Bounded High-Speed Search Wrappers
+* **`rg-mini`**: Ripgrep wrapper hard-capped at 20 lines (`--max-count 20`). Ensures text searches consume **<80 tokens**.
+* **`fd-mini`**: Find wrapper hard-capped at 20 results (`--max-results 20`).
+* **`es-mini`**: Windows Everything IPC fast-path search. Resolves filenames in **<10ms**.
+* **`sg-mini`**: Ast-grep wrapper for structural code syntax queries.
+
+### 4. Context Compression & Relevance Ranking
+* **`token-save`**: AST-based relevance engine and code pruner for Python error logs and tracebacks (T4).
+* **`tokensaver` Python Core**: Multi-language AST parsing (Python, TS, TSX, JS), BM25 scoring, and structural equivalence gating.
+* **`session_logger`**: Tracks cumulative token compression metrics, fidelity scores, and session latency.
+
+### 5. Antigravity IDE Memory & Health Suite
+* **`antigravity-brain` (`agy-brain`)**: Inspects IDE memory state, artifact storage, and active conversation indices.
+* **`antigravity-clean` (`agy-clean`)**: Purges IDE crash dumps, orphaned memory locks, and temporary scratch bloat.
+* **`antigravity-check` (`agy-check`)**: Verifies IDE environment variables, permissions, and tool health.
+
+### 6. Long-Session & Agent Benchmarking
+* **`agent_benchmark`**: Automated agent accuracy and token efficiency benchmarking suite.
+* **`long_session_benchmark`**: Simulates multi-turn long-running sessions to test context degradation and token accumulation.
+
+### 7. Workstation Diagnostics & Browser Automation
+* **`pc-toolbox`**: Workstation maintenance commands (`/boost` RAM, `/clean` temp files, `/status`, `/diagnose`, `/unlock`).
+* **`auto-scraper`**: Multi-tier autonomous web extraction (Tier 1: Direct HTTP → Tier 2: Agent Browser → Tier 3: Playwright).
+* **`playwright-cli`**: Headless browser automation test runner.
+* **`md-mermaid`**: Mermaid diagram CLI compiler and renderer (`mmdc`).
 
 ---
 
-## 🗺️ Roadmap
+## The T0–T5 Unified Protocol
 
-- [ ] Additional language parsers (Go, Rust, C/C++)
-- [ ] Direct IDE extensions (VS Code, JetBrains)
-- [ ] Expanded multi-repository benchmark suites
-- [ ] Incremental watcher performance enhancements
+Apply the **FIRST** matching tier. Never invoke multiple exploration tools in sequence.
+
+| Tier | Name | When to Use | Approved Command | Token Budget |
+| :--- | :--- | :--- | :--- | :--- |
+| **T0** | **Direct Answer** | Casual chat, concepts, general Q&A | *Zero tools* | 0 |
+| **T1** | **Direct File Edit** | File path or line numbers are already known | `view_file(StartLine, EndLine)` + `replace_file_content` | <150 tok |
+| **T2** | **Graph Intelligence** | Architecture, symbol lookup, call hierarchies | `cbm arch`, `cbm search`, `cbm trace`, `cbm snippet` | 100–350 tok |
+| **T3** | **Capped Text Search**| Literal strings, regex, config keys, filenames | `rg-mini`, `fd-mini`, `es-mini` (max 20 lines) | <80 tok |
+| **T4** | **Python Traceback** | Python project + explicit error log + >20 files | `token-save auto "<prompt>" "<dir>"` | 300–600 tok |
+| **T5** | **Full Repo Audit** | Whole-repo architectural audit in one shot | `npx repomix --compress` | Whole-repo |
+
+### Invariant Rules
+- ❌ **NEVER** run `cbm` or `grep` when the target file/line is already known. Use `view_file` direct (T1).
+- ❌ **NEVER** call `view_file` without `StartLine` and `EndLine` (max 60 lines).
+- ❌ **NEVER** dump raw `Get-ChildItem -Recurse` or uncapped `grep` output into context.
+- ❌ **NEVER** load MCP schemas eagerly; invoke the compiled CLI wrapper `cbm` directly.
 
 ---
 
-## 📄 License
+## Quick Start & Installation
 
-Yuro is released under the [MIT License](LICENSE). Developed by [WillyEverGreen](https://github.com/WillyEverGreen). 🦊
+### Windows (One-Click Setup)
+```powershell
+git clone https://github.com/WillyEverGreen/YURO.git
+cd YURO
+.\install.ps1
+```
+
+*What `install.ps1` does automatically:*
+1. Copies all CLI tools and binaries to `C:\tools\`.
+2. Auto-downloads and verifies `codebase-memory-mcp.exe` v0.11.0 if not already present.
+3. Appends `C:\tools` to User Environment `PATH`.
+4. Synchronizes global rules to `%USERPROFILE%\.gemini\config\rules\`.
+5. Synchronizes modular skills to `%USERPROFILE%\.gemini\config\skills\`.
+6. Configures global `mcp_config.json`.
+7. Runs the verification suite.
+
+### Linux / macOS
+```bash
+git clone https://github.com/WillyEverGreen/YURO.git
+cd YURO
+chmod +x install.sh
+./install.sh
+```
+
+---
+
+## Command Cheatsheet
+
+```cmd
+# -------------------------------------------------------------
+# 1. TOKEN AUDITING & TELEMETRY
+# -------------------------------------------------------------
+token-audit                    # Audit active session context payload
+token-scan                     # Scan across all historical chat sessions
+token-scan -n 5                # Scan last 5 sessions
+token-tracker audit --all      # Global lifetime portfolio audit
+token-scan --csv > tokens.csv  # Export metrics to CSV for Excel
+token-tracker live             # Real-time live session monitor
+
+# -------------------------------------------------------------
+# 2. CODEBASE MEMORY (GRAPH QUERIES)
+# -------------------------------------------------------------
+cbm index <path>               # Index codebase AST into SQLite graph
+cbm arch <project>             # Instant architecture map (<350 tokens)
+cbm search <project> <symbol>  # Fast symbol location (<200 tokens)
+cbm trace <project> <function> # Call hierarchy traversal (<200 tokens)
+cbm snippet <project> <symbol> # Qualified function source lines (<180 tokens)
+
+# -------------------------------------------------------------
+# 3. HIGH-SPEED BOUNDED SEARCH
+# -------------------------------------------------------------
+rg-mini "<query>" [path]       # Capped ripgrep (max 20 lines)
+fd-mini "<pattern>" [path]     # Capped file finder (max 20 results)
+es-mini "<pattern>"            # Instant Everything IPC search
+
+# -------------------------------------------------------------
+# 4. SYSTEM & IDE MAINTENANCE
+# -------------------------------------------------------------
+agy-brain                      # Inspect IDE memory state
+agy-clean                      # Purge IDE crash dumps and temporary logs
+agy-check                      # Verify IDE environment permissions & tools
+/boost                         # Free workstation standby RAM
+/clean                         # Clean temporary directories & cache
+/status                        # Workstation diagnostic telemetry
+```
+
+---
+
+## Project Structure
+
+```text
+YURO/
+├── yuro.png                      # Official Fox Mascot & Logo
+├── cmd/                          # Production CLI tools & wrappers (33 tools)
+│   ├── token-tracker.js          # Ground-truth transcript parser & auditor
+│   ├── token-audit.cmd           # Session audit command
+│   ├── token-scan.cmd            # Multi-session scanner command
+│   ├── cbm.cmd                   # Codebase Memory CLI runner
+│   ├── cbm-mini.cmd              # High-level graph overview
+│   ├── rg-mini.cmd               # Capped ripgrep wrapper
+│   ├── fd-mini.cmd               # Capped file search wrapper
+│   ├── es-mini.cmd               # Everything IPC search wrapper
+│   ├── sg-mini.cmd               # ast-grep structural search
+│   ├── token-save.cmd            # Python AST pruner
+│   ├── session_logger.cmd        # Session performance tracker
+│   ├── antigravity-brain.cmd     # IDE memory analyzer
+│   ├── antigravity-clean.cmd     # IDE crash/temp cleaner
+│   ├── antigravity-check.cmd     # IDE diagnostic checker
+│   ├── agent_benchmark.cmd       # Agent benchmark runner
+│   ├── long_session_benchmark.cmd# Long-session simulator
+│   ├── code-sig.cmd              # Code signature extractor
+│   ├── repo_indexer.cmd          # AST indexer
+│   ├── playwright-cli.cmd        # Browser automation runner
+│   └── md-mermaid.cmd            # Mermaid diagram compiler
+├── bin/                          # Platform binaries (rg.exe, fd.exe, ast-grep.exe, etc.)
+├── rules/                        # Antigravity IDE global rules
+│   ├── T0-T5-protocol.md         # Master decision protocol
+│   ├── token-saver.md            # T4 Python traceback context rule
+│   ├── pc-commands.md            # Slash command shortcuts
+│   └── agent-browser-default.md  # Tier 1 browser automation policy
+├── skills/                       # Modular Antigravity skills
+│   ├── pc-toolbox/               # Workstation CLI & diagnostics
+│   ├── auto-scraper/             # Multi-tier web extraction engine
+│   └── caveman-mode/             # High-density agent output protocol
+├── mcp/                          # Model Context Protocol configurations
+│   ├── mcp_config.global.json    # Global MCP template
+│   ├── mcp_config.ide.json       # IDE remote plugins template
+│   └── setup-guide.md            # Cross-platform MCP deployment guide
+├── src/                          # TokenSaver core Python package
+│   └── tokensaver/               # AST parsing, BM25 retrieval, evidence assembly
+├── install.ps1                   # One-click Windows PowerShell installer
+├── install.sh                    # One-click Linux/macOS Bash installer
+├── verify.ps1                    # Verification & sanity test suite
+├── pyproject.toml                # Python package metadata
+└── LICENSE                       # MIT License
+```
+
+---
+
+<div align="center">
+<b>YURO</b> • Engineered for Maximum Cognitive Density and Zero Token Waste. 🦊
+</div>

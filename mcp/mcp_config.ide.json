@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "StitchMCP": {
+      "$typeName": "exa.cascade_plugins_pb.CascadePluginCommandTemplate",
+      "command": "npx",
+      "args": [
+        "-y",
+        "mcp-remote",
+        "https://stitch.googleapis.com/mcp"
+      ],
+      "env": {},
+      "disabledTools": [],
+      "disabled": false
+    },
+    "supabase": {
+      "serverUrl": "https://mcp.supabase.com/mcp"
+    }
+  }
+}
