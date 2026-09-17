@@ -1,29 +1,52 @@
 <div align="center">
 
-<img src="yuro.png" alt="Yuro Mascot" width="260" style="margin-bottom: 15px;" />
+<img src="yuro.png" alt="Yuro mascot" width="240" style="margin-bottom: 15px;" />
 
-# YURO
+# Yuro
 
-**Unified Code Graph Intelligence, Zero-Waste Context Engine & Toolchain for AI Coding Agents**
+**A Local-First Code Intelligence, Graph Engine & Zero-Waste Context Architecture for AI Coding Agents**
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-orange.svg)](LICENSE)
-[![Release](https://img.shields.io/badge/Release-v2.0.0%20Unified-blue.svg)](pyproject.toml)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20macOS%20%7C%20Linux-brightgreen.svg)](#-quick-start--installation)
+[![Release: v2.0.0](https://img.shields.io/badge/Release-v2.0.0%20Unified-blue.svg)](pyproject.toml)
+[![Python: 3.8+](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](pyproject.toml)
+[![Node: 18+](https://img.shields.io/badge/Node-18%2B-green.svg)](package.json)
 [![Context Reduction](https://img.shields.io/badge/Context%20Reduction--87%25%20Empirical-success.svg)](#-empirical-benchmark-yuro-vs-no-stack-baseline)
-[![Protocol](https://img.shields.io/badge/Protocol-T0--T5%20Tiered-purple.svg)](#-how-everything-works-together-the-unified-ecosystem)
-[![Tools](https://img.shields.io/badge/Tools-33%20Integrated%20Utilities-cyan.svg)](#-complete-tool-catalog)
+[![Protocol](https://img.shields.io/badge/Protocol-T0--T5%20Tiered-purple.svg)](#-the-t0-t5-unified-protocol)
 
 ---
 
 </div>
 
-## Overview
+## 🧠 What YURO Actually Is (and Isn't)
 
-Modern AI coding agents (Claude, Gemini, GPT) are notoriously inefficient with context. When an agent searches for a function or attempts to understand an unfamiliar codebase, it often runs recursive directory scans, uncapped file greps, and dumps 10 full files straight into prompt memory—burning **15,000 to 40,000 tokens** on queries that can be answered in **under 350 tokens**.
+**YURO is not an AI model or a standalone chatbot.** Claude, Gemini, and GPT remain the brain. 
 
-Because LLM context accumulates turn-over-turn, early token bloat compounds over every subsequent message, rapidly triggering model amnesia, high API costs, and context compaction.
+YURO is the **agent-side context optimization and evidence harness** underneath them—informally known as the **"don't be stupid with context" layer**.
 
-**YURO** solves this by uniting:
+```text
+                           ┌──────────────────────────────┐
+                           │      AI CODING AGENT         │
+                           │   Claude / Gemini / GPT      │
+                           └──────────────┬───────────────┘
+                                          │
+                   ┌──────────────────────┴──────────────────────┐
+                   ▼                                             ▼
+        ┌──────────────────────┐                      ┌──────────────────────┐
+        │      YURO LAYER      │                      │    EXTERNAL TIERS    │
+        │ (Context & Tooling)  │                      │   GitHub / Web /     │
+        │                      │                      │   Telegram Drive     │
+        └──────────┬───────────┘                      └──────────┬───────────┘
+                   │                                             │
+                   ▼                                             ▼
+        [Minimum Sufficient Code]                     [Persistent Docs/Files]
+        AST Graphs, Bounded Grep                      PDFs, Knowledge Base
+```
+
+Without YURO, an autonomous agent searching for a function or tracking an authentication flow will blindly run recursive directory scans, uncapped greps, and dump 10 entire files into prompt context—blowing **15,000 to 40,000 tokens** on questions that can be answered in **under 350 tokens**.
+
+Because LLM conversation context accumulates turn-over-turn, early token bloat compounds on every subsequent prompt, triggering model amnesia, high API costs, and context compaction.
+
+**YURO equips your agent with bounded, purpose-built tools:**
 1. **Local Code Graph Intelligence (`cbm`)**: AST-indexed SQLite call graphs and dependency maps that answer architectural questions in under 350 tokens.
 2. **Hard-Capped Mini Wrappers (`rg-mini`, `fd-mini`)**: Enforced 20-line boundaries that prevent catastrophic terminal context dumps.
 3. **Ground-Truth Token Auditor (`token-audit`, `token-scan`)**: Real-time forensic parser reading untruncated engine transcripts to track exact characters, tokens, and context leaks.
@@ -33,7 +56,7 @@ Because LLM context accumulates turn-over-turn, early token bloat compounds over
 
 ---
 
-## How Everything Works Together: The Unified Ecosystem
+## 🏛️ How Everything Works Together: The Unified Ecosystem
 
 Every tool in Yuro has a precise role within the cognitive workflow. No tool steps on another:
 
@@ -75,15 +98,15 @@ Every tool in Yuro has a precise role within the cognitive workflow. No tool ste
 
 ---
 
-## Empirical Benchmark: Yuro vs. No-Stack Baseline
+## 📊 Empirical Benchmark: Yuro vs. No-Stack Baseline
 
-Tested head-to-head on the production `Techtruction` React codebase:
+Tested head-to-head on the production `Techtruction` React codebase across 4 common developer queries:
 
 ```text
 ══════════════════════════════════════════════════════════════════════════════════════════
           BRUTAL EMPIRICAL BENCHMARK: OPTIMIZED STACK vs NO-STACK BASELINE
 ══════════════════════════════════════════════════════════════════════════════════════════
- Target Repo:      Techtruction (React 18, React Router, Context API)
+ Target Repo:      Techtruction (React 18, React Router, Context API, 25 files)
  Evaluation Mode:  Ground-Truth Payload Characters & Estimated Tokens (3.8 ch/tok)
 ──────────────────────────────────────────────────────────────────────────────────────────
  Scenario                  No-Stack Payload        YURO Payload          Context Reduction
@@ -99,9 +122,14 @@ Tested head-to-head on the production `Techtruction` React codebase:
 
 > **The Tradeoff**: A ~1.5 second local graph traversal eliminates **87% of context bloat**. Across a 30-turn session, this prevents **~146,000 token-turns** from compounding and re-billing.
 
+### 🔬 Real-World Context Savings Variance
+Savings naturally depend on codebase architecture and task coupling:
+* **Compact, Highly Coupled Libraries** (e.g. Axios, Flask): Achieve **~35–40% net reduction** because a higher proportion of core structural interface files must be retained to maintain 100% task sufficiency.
+* **Component-Driven Applications & Monorepos** (e.g. React/Next.js apps, full-stack microservices): Achieve **80–90%+ net reduction** because YURO pinpoints exact call subgraphs, completely eliminating massive multi-hundred-line file dumps.
+
 ---
 
-## Complete Tool Catalog
+## 🗂️ Complete Tool Catalog
 
 Yuro organizes all 33 integrated utilities into 7 coordinated domains:
 
@@ -148,7 +176,7 @@ Yuro organizes all 33 integrated utilities into 7 coordinated domains:
 
 ---
 
-## The T0–T5 Unified Protocol
+## 🎯 The T0–T5 Unified Protocol
 
 Apply the **FIRST** matching tier. Never invoke multiple exploration tools in sequence.
 
@@ -161,7 +189,7 @@ Apply the **FIRST** matching tier. Never invoke multiple exploration tools in se
 | **T4** | **Python Traceback** | Python project + explicit error log + >20 files | `token-save auto "<prompt>" "<dir>"` | 300–600 tok |
 | **T5** | **Full Repo Audit** | Whole-repo architectural audit in one shot | `npx repomix --compress` | Whole-repo |
 
-### Invariant Rules
+### 🔒 Invariant Rules
 - ❌ **NEVER** run `cbm` or `grep` when the target file/line is already known. Use `view_file` direct (T1).
 - ❌ **NEVER** call `view_file` without `StartLine` and `EndLine` (max 60 lines).
 - ❌ **NEVER** dump raw `Get-ChildItem -Recurse` or uncapped `grep` output into context.
@@ -169,7 +197,7 @@ Apply the **FIRST** matching tier. Never invoke multiple exploration tools in se
 
 ---
 
-## Quick Start & Installation
+## 🚀 Quick Start & Installation
 
 ### Windows (One-Click Setup)
 ```powershell
@@ -185,7 +213,7 @@ cd YURO
 4. Synchronizes global rules to `%USERPROFILE%\.gemini\config\rules\`.
 5. Synchronizes modular skills to `%USERPROFILE%\.gemini\config\skills\`.
 6. Configures global `mcp_config.json`.
-7. Runs the verification suite.
+7. Runs the 10-point verification suite.
 
 ### Linux / macOS
 ```bash
@@ -197,7 +225,7 @@ chmod +x install.sh
 
 ---
 
-## Command Cheatsheet
+## ⌨️ Command Cheatsheet
 
 ```cmd
 # -------------------------------------------------------------
@@ -239,7 +267,7 @@ agy-check                      # Verify IDE environment permissions & tools
 
 ---
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 YURO/
@@ -284,7 +312,8 @@ YURO/
 ├── install.ps1                   # One-click Windows PowerShell installer
 ├── install.sh                    # One-click Linux/macOS Bash installer
 ├── verify.ps1                    # Verification & sanity test suite
-├── pyproject.toml                # Python package metadata
+├── package.json                  # NPM scripts & metadata
+├── pyproject.toml                # Python package metadata (v2.0.0)
 └── LICENSE                       # MIT License
 ```
 

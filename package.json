@@ -1,0 +1,30 @@
+{
+  "name": "yuro",
+  "version": "2.0.0",
+  "description": "Unified Code Graph Intelligence & Zero-Waste Context Engine for AI Coding Agents",
+  "main": "cmd/token-tracker.js",
+  "bin": {
+    "token-tracker": "cmd/token-tracker.js",
+    "token-audit": "cmd/token-tracker.js",
+    "token-scan": "cmd/token-tracker.js"
+  },
+  "scripts": {
+    "test": "powershell -ExecutionPolicy Bypass -File ./verify.ps1",
+    "scan": "node cmd/token-tracker.js scan",
+    "audit": "node cmd/token-tracker.js audit",
+    "install:win": "powershell -ExecutionPolicy Bypass -File ./install.ps1",
+    "install:unix": "bash ./install.sh"
+  },
+  "keywords": [
+    "ai",
+    "context-optimization",
+    "token-efficiency",
+    "codebase-memory",
+    "antigravity",
+    "agentic-coding",
+    "graph-code-search",
+    "yuro"
+  ],
+  "author": "WillyEverGreen",
+  "license": "MIT"
+}
